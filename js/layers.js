@@ -150,7 +150,7 @@ addLayer("tier", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "tier") layerDataReset("tier")
+        if (resettingLayer !== "tier") layerDataReset("rank")
     },
     upgrades: {
         11: {
@@ -267,7 +267,7 @@ addLayer("tetr", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "tetr") layerDataReset("tetr")
+        if (resettingLayer !== "tetr") layerDataReset("tier")
     },
     upgrades: {
         11: {
