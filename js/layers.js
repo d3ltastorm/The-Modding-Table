@@ -102,26 +102,12 @@ addLayer("rank", {
     hotkeys: [
         {key: "p", description: "P: Rank up", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    microtabs:{
-        tab:{
-            "main":{
-                name(){return 'main'}, // Name of tab button
-                nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
-                content:[
-                    ['upgrade', 11],
-                    ['upgrade', 12],
-                    ['upgrade', 13],
-                    ['upgrade', 14],
-                ],
-            },
-        },
-    },
     tabFormat: [
        ["display-text", function() { return getPointsDisplay() }],
        "main-display",
        "prestige-button",
        "blank",
-       ["microtabs","tab"]
+       "upgrades"
     ],
     layerShown(){return true},
 })
@@ -223,27 +209,12 @@ addLayer("tier", {
         },
     },
     hotkeys: [],
-    microtabs:{
-        tab:{
-            "main":{
-                name(){return 'main'}, // Name of tab button
-                nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
-                content:[
-                    ['upgrade', 11],
-                    ['upgrade', 12],
-                    ['upgrade', 13],
-                    ['upgrade', 21],
-                    ['upgrade', 22],
-                ],
-            },
-        },
-    },
     tabFormat: [
        ["display-text", function() { return getPointsDisplay() }],
        "main-display",
        "prestige-button",
        "blank",
-       ["microtabs","tab"]
+       "upgrades"
     ],
     layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",12)},
 })
@@ -322,25 +293,12 @@ addLayer("tetr", {
         },
     },
     hotkeys: [],
-    microtabs:{
-        tab:{
-            "main":{
-                name(){return 'main'}, // Name of tab button
-                nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
-                content:[
-                    ['upgrade', 11],
-                    ['upgrade', 12],
-                    ['upgrade', 13],
-                ],
-            },
-        },
-    },
     tabFormat: [
        ["display-text", function() { return getPointsDisplay() }],
        "main-display",
        "prestige-button",
        "blank",
-       ["microtabs","tab"]
+       "upgrades"
     ],
     layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",21)},
 })
