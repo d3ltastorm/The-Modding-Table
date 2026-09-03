@@ -89,6 +89,8 @@ function getPointGen() {
 	gain = gain.mul(temp.rank.effect)
 	if (hasUpgrade("rank",11)) gain = gain.mul(hasUpgrade("rank",12)?3:2)
 	if (hasUpgrade("rank",13)) gain = gain.mul(upgradeEffect("rank", 13))
+	gain = gain.mul(temp.tier.effect)
+	gain = gain.mul(temp.tetr.effect)
 	return gain
 }
 
