@@ -84,7 +84,6 @@ addLayer("rank", {
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player.points.add(1).log10().pow(2).div(4)) // (log10(x+1)^2)/4
-				if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tier",21))
 				return mult
 			},
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -190,8 +189,8 @@ addLayer("tier", {
             unlocked(){return hasUpgrade("tier",12)}
         },
         14: {
-            title: "Base Multiplier I",
-            titleI18N: "Base Multiplier I", 
+            title: "Multiplier II",
+            titleI18N: "Multiplier II", 
             description: "Multiply effect of Booster I based on tiers",
             descriptionI18N: "Multiply effect of Booster I based on tiers", 
 			effect() {
@@ -301,8 +300,8 @@ addLayer("tetr", {
             unlocked(){return hasUpgrade("tetr",12)}
         },
         14: {
-            title: "Multiplier III",
-            titleI18N: "Multiplier III", 
+            title: "Multiplier IV",
+            titleI18N: "Multiplier IV", 
             description: "Multiply points by 2.",
             descriptionI18N: "Multiply points by 2.",
             cost:function(){return new Decimal("6")},
