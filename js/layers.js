@@ -109,6 +109,9 @@ addLayer("rank", {
                 nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
                 content:[
                     ['upgrade', 11],
+                    ['upgrade', 12],
+                    ['upgrade', 13],
+                    ['upgrade', 14],
                 ],
             },
         },
@@ -227,6 +230,10 @@ addLayer("tier", {
                 nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
                 content:[
                     ['upgrade', 11],
+                    ['upgrade', 12],
+                    ['upgrade', 13],
+                    ['upgrade', 21],
+                    ['upgrade', 22],
                 ],
             },
         },
@@ -322,6 +329,8 @@ addLayer("tetr", {
                 nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
                 content:[
                     ['upgrade', 11],
+                    ['upgrade', 12],
+                    ['upgrade', 13],
                 ],
             },
         },
