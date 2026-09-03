@@ -1,9 +1,10 @@
+
 addLayer("1layer", {
     name: "sideLayer1",
     position: -1,
     row: 0,
-    symbol() {return '↓ layer 1 ↓'}, // This appears on the layer's node. Default is the id with the first letter capitalized
-    symbolI18N() {return '↓ layer 1 ↓'}, // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled (in mod.js)
+    symbol() {return '[[ Ranking ]]'}, // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N() {return '[[ Ranking ]]'}, // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled (in mod.js)
     small: true,// Set to true to generate a slightly smaller layer node
     nodeStyle: {"font-size": "15px", "height": "30px"},// Style for the layer button
     startData() { return {
@@ -13,33 +14,44 @@ addLayer("1layer", {
     color: "#fefefe",
     type: "none",
     tooltip(){return false},
-    layerShown(){return layerDisplayTotal(['p'])},// If any layer in the array is unlocked, it will returns true. Otherwise it will return false.
+    layerShown(){return layerDisplayTotal(['r'])},// If any layer in the array is unlocked, it will returns true. Otherwise it will return false.
 	tabFormat: [
         ["display-text", function() { return getPointsDisplay() }]
     ],
 })
 
-addLayer("p", {
-    name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id
-    symbol: "Prestige", // This appears on the layer's node. Default is the id with the first letter capitalized
-    symbolI18N: "Prestige", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
+addLayer("rank", {
+    name: "rank", // This is optional, only used in a few places, If absent it just uses the layer id
+    symbol: "Ranks (R)", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N: "Ranks (R)", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     row: 0, // Row the layer is in on the tree (0 is the first row)
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#4BDC13",
+    color: "#f2b582",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
-    resource: "prestige points", // Name of prestige currency
-    resourceI18N: "prestige points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
+    resource: "ranks", // Name of prestige currency
+    resourceI18N: "ranks", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "points", // Name of resource prestige is based on
     baseResourceI18N: "points", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
     baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+	base: 1.3,
+    exponent: 1.15, // Prestige currency exponent
+	effect() {
+		return new Decimal(1).add(player[this.layer].points.pow(0.25))
+	},
+	effectDescription() {
+		return `which are boosting points by ${format(temp[this.layer].effect)}`
+	},
+	effectDescriptionI18N() {
+		return `which are boosting points by ${format(temp[this.layer].effect)}`
+	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+		if (hasUpgrade("tier",12)) mult = mult.mul(upgradeEffect("tier", 12))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -47,16 +59,47 @@ addLayer("p", {
     },
     upgrades: {
         11: {
-            title: "00 Start",
-            titleI18N: "00 Start", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
-            description: "Gain 1 point every second.",
-            descriptionI18N: "Gain 1 point every second.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
-            cost:function(){return new Decimal("0")},
+            title: "Multiplier I",
+            titleI18N: "Multiplier I", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply points by 2",
+            descriptionI18N: "Multiply points by 2", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            cost:function(){return new Decimal("2")},
+            unlocked(){return true}
+        },
+        12: {
+            title: "Multiplier II",
+            titleI18N: "Multiplier II", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Add +1 to base effect of Multiplier I",
+            descriptionI18N: "Add +1 to base effect of Multiplier I", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            cost:function(){return new Decimal("3")},
+            unlocked(){return true}
+        },
+        13: {
+            title: "Booster I",
+            titleI18N: "Booster I", 
+            description: "Multiply points based on rank",
+            descriptionI18N: "Multiply points based on rank", 
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
+				if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier",13))
+				return mult
+			},
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("5")},
+            unlocked(){return true}
+        },
+        14: {
+            title: "Tiers",
+            titleI18N: "Tiers", 
+            description: "Unlock a new layer.",
+            descriptionI18N: "Unlock a new layer.", 
+            cost:function(){return new Decimal("7")},
             unlocked(){return true}
         },
     },
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "p", description: "P: Rank up", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     microtabs:{
         tab:{
@@ -67,12 +110,6 @@ addLayer("p", {
                     ['upgrade', 11],
                 ],
             },
-            "another":{
-                name(){return 'another'},
-                nameI18N(){return 'another'},
-                content:[
-                ],
-            }
         },
     },
     tabFormat: [
@@ -85,5 +122,259 @@ addLayer("p", {
     layerShown(){return true},
 })
 
+addLayer("tier", {
+    name: "tier", // This is optional, only used in a few places, If absent it just uses the layer id
+    symbol: "Tiers (T)", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N: "Tiers (T)", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#efd66b",
+    requires: new Decimal(7), // Can be a function that takes requirement increases into account
+    resource: "tiers", // Name of prestige currency
+    resourceI18N: "tiers", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
+    baseResource: "ranks", // Name of resource prestige is based on
+    baseResourceI18N: "ranks", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
+    baseAmount() {return player.rank.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+	base: 1.35,
+    exponent: 1.5, // Prestige currency exponent
+	effect() {
+		return new Decimal(1).add(player[this.layer].points.pow(0.5))
+	},
+	effectDescription() {
+		return `which are boosting points by ${format(temp[this.layer].effect)}`
+	},
+	effectDescriptionI18N() {
+		return `which are boosting points by ${format(temp[this.layer].effect)}`
+	},
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    upgrades: {
+        11: {
+            title: "Booster II",
+            titleI18N: "Booster II", 
+            description: "Multiply points based on tier",
+            descriptionI18N: "Multiply points based on tier",
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("2")},
+            unlocked(){return true}
+        },
+        12: {
+            title: "Rank Booster I",
+            titleI18N: "Rank Booster I", 
+            description: "Multiply ranks based on points",
+            descriptionI18N: "Multiply ranks based on points", 
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.points.add(1).log10().cbrt().div(5)) // cbrt(log10(x+1))/5
+				return mult
+			},
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("6")},
+            unlocked(){return true}
+        },
+        13: {
+            title: "Base Multiplier I",
+            titleI18N: "Base Multiplier I", 
+            description: "Multiply effect of Booster I based on tiers",
+            descriptionI18N: "Multiply effect of Booster I based on tiers", 
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player[this.layer].points.add(1).root(2.5)) // root2.5(x+1)
+				return mult
+			},
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("12")},
+            unlocked(){return true}
+        },
+        21: {
+            title: "Tetrs",
+            titleI18N: "Tetrs", 
+            description: "Unlock a new layer.",
+            descriptionI18N: "Unlock a new layer.", 
+            cost:function(){return new Decimal("24")},
+            unlocked(){return true}
+        },
+       	22: {
+            title: "Maximized I",
+            titleI18N: "Maximized I", 
+            description: "Buy max Rank.",
+            descriptionI18N: "Buy max Rank.", 
+            cost:function(){return new Decimal("150")},
+            unlocked(){return true}
+        },
+    },
+    hotkeys: [],
+    microtabs:{
+        tab:{
+            "main":{
+                name(){return 'main'}, // Name of tab button
+                nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
+                content:[
+                    ['upgrade', 11],
+                ],
+            },
+        },
+    },
+    tabFormat: [
+       ["display-text", function() { return getPointsDisplay() }],
+       "main-display",
+       "prestige-button",
+       "blank",
+       ["microtabs","tab"]
+    ],
+    layerShown(){return hasUpgrade("rank",14) || hasAchivement("ach",12)},
+})
+addLayer("tetr", {
+    name: "tetr", // This is optional, only used in a few places, If absent it just uses the layer id
+    symbol: "Tetrs (Ŧ)", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N: "Tetrs (Ŧ)", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#efd66b",
+    requires: new Decimal(24), // Can be a function that takes requirement increases into account
+    resource: "tetrs", // Name of prestige currency
+    resourceI18N: "tetrs", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
+    baseResource: "tiers", // Name of resource prestige is based on
+    baseResourceI18N: "tiers", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
+    baseAmount() {return player.tier.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+	base: 1.1,
+    exponent: 1.35, // Prestige currency exponent
+	effect() {
+		return new Decimal(1).add(player[this.layer].points.add(1).log10().pow(5))
+	},
+	effectDescription() {
+		return `which are boosting points by ${format(temp[this.layer].effect)}`
+	},
+	effectDescriptionI18N() {
+		return `which are boosting points by ${format(temp[this.layer].effect)}`
+	},
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    upgrades: {
+        11: {
+            title: "Booster III",
+            titleI18N: "Booster III", 
+            description: "Multiply points based on tiers",
+            descriptionI18N: "Multiply points based on tiers",
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("2")},
+            unlocked(){return true}
+        },
+        12: {
+            title: "Rank Booster II",
+            titleI18N: "Rank Booster II", 
+            description: "Multiply ranks based on tetrs",
+            descriptionI18N: "Multiply ranks based on tetrs", 
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player[this.layer].points.add(1).log10().cbrt()) // cbrt(log10(x+1))
+				return mult
+			},
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("8")},
+            unlocked(){return true}
+        },
+    },
+    hotkeys: [],
+    microtabs:{
+        tab:{
+            "main":{
+                name(){return 'main'}, // Name of tab button
+                nameI18N(){return 'main'}, // Second name for internationalization (i18n) if internationalizationMod is enabled
+                content:[
+                    ['upgrade', 11],
+                ],
+            },
+        },
+    },
+    tabFormat: [
+       ["display-text", function() { return getPointsDisplay() }],
+       "main-display",
+       "prestige-button",
+       "blank",
+       ["microtabs","tab"]
+    ],
+    layerShown(){return hasUpgrade("rank",14) || hasAchivement("ach",21)},
+})
+addLayer("ach", {
+    startData() {return {
+        unlocked: true
+    }},
+    color: "#FFFF00",
+    row: "side",
+    layerShown() {return true},
+    symbol: "A",
+    tooltip() {
+        return "Achievements"
+    },
+    achievements: {
+        11: {
+            name: "First Rank",
+            done() { return player.rank.points.gte(1) },
+            tooltip: "Rank up once.",
+        },
+        12: {
+            name: "First Tier",
+            done() { return player.tier.points.gte(1) },
+            tooltip: "Tier up once.",
+        },
+        13: {
+            name: "Tenth Rank",
+            done() { return player.rank.points.gte(10) },
+            tooltip: "Get Rank 10.",
+        },
+        14: {
+            name: "Thousands",
+            done() { return player.points.gte(1000) },
+            tooltip: "Get 1,000 points.",
+        },
+        15: {
+            name: "Tenth Tier",
+            done() { return player.tier.points.gte(10) },
+            tooltip: "Get Tier 10.",
+        },
+        21: {
+            name: "First Tetr",
+            done() { return player.tetr.points.gte(1) },
+            tooltip: "Tetr up once.",
+        },
+    },
+    tabFormat: [
+		"blank", 
+		["display-text", function() { return "Achievements: "+player.ach.achievements.length+"/"+(Object.keys(tmp.ach.achievements).length - 2) }], 
+		"blank", "blank",
+		"achievements",
+	],
+})
 // You can delete the second name from each option if internationalizationMod is not enabled.
 // You can use function i18n(text, otherText) to return text in two different languages. Typically, text is English and otherText is Chinese. If changedDefaultLanguage is true, its reversed
