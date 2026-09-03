@@ -76,13 +76,13 @@ addLayer("rank", {
             unlocked(){return hasUpgrade("rank",11)}
         },
         13: {
-            title: "Booster I",
-            titleI18N: "Booster I", 
-            description: "Multiply points based on ranks",
-            descriptionI18N: "Multiply points based on ranks", 
+            title: "Self-Synergy I",
+            titleI18N: "Self-Synergy I", 
+            description: "Multiply points based on itself",
+            descriptionI18N: "Multiply points based on itself", 
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
+				mult = mult.add(player.points.add(1).log10().pow(2).div(4)) // (log10(x+1)^2)/4
 				if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier",13))
 				return mult
 			},
