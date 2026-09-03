@@ -14,7 +14,7 @@ addLayer("1layer", {
     color: "#fefefe",
     type: "none",
     tooltip(){return false},
-    layerShown(){return layerDisplayTotal(['r'])},// If any layer in the array is unlocked, it will returns true. Otherwise it will return false.
+    layerShown(){return layerDisplayTotal(['rank'])},// If any layer in the array is unlocked, it will returns true. Otherwise it will return false.
 	tabFormat: [
         ["display-text", function() { return getPointsDisplay() }]
     ],
@@ -44,10 +44,10 @@ addLayer("rank", {
 		return new Decimal(1).add(player[this.layer].points.pow(0.25))
 	},
 	effectDescription() {
-		return `which are boosting points by ${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by ${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -57,6 +57,7 @@ addLayer("rank", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+	canBuyMax() {return hasUpgrade("tier",22) || hasAchievement("ach",23)},
     upgrades: {
         11: {
             title: "Multiplier I",
@@ -77,8 +78,8 @@ addLayer("rank", {
         13: {
             title: "Booster I",
             titleI18N: "Booster I", 
-            description: "Multiply points based on rank",
-            descriptionI18N: "Multiply points based on rank", 
+            description: "Multiply points based on ranks",
+            descriptionI18N: "Multiply points based on ranks", 
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
@@ -146,10 +147,10 @@ addLayer("tier", {
 		return new Decimal(1).add(player[this.layer].points.pow(0.5))
 	},
 	effectDescription() {
-		return `which are boosting points by ${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by ${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -162,8 +163,8 @@ addLayer("tier", {
         11: {
             title: "Booster II",
             titleI18N: "Booster II", 
-            description: "Multiply points based on tier",
-            descriptionI18N: "Multiply points based on tier",
+            description: "Multiply points based on tiers",
+            descriptionI18N: "Multiply points based on tiers",
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
@@ -185,7 +186,7 @@ addLayer("tier", {
 			},
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
             cost:function(){return new Decimal("6")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("tier",11)}
         },
         13: {
             title: "Base Multiplier I",
@@ -199,7 +200,7 @@ addLayer("tier", {
 			},
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
             cost:function(){return new Decimal("12")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("tier",12)}
         },
         21: {
             title: "Tetrs",
@@ -207,15 +208,15 @@ addLayer("tier", {
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", 
             cost:function(){return new Decimal("24")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("tier",13)}
         },
        	22: {
             title: "Maximized I",
             titleI18N: "Maximized I", 
             description: "Buy max Rank.",
             descriptionI18N: "Buy max Rank.", 
-            cost:function(){return new Decimal("150")},
-            unlocked(){return true}
+            cost:function(){return new Decimal("35")},
+            unlocked(){return hasUpgrade("tetr",12) || hasAchievement("ach",22)}
         },
     },
     hotkeys: [],
@@ -249,7 +250,7 @@ addLayer("tetr", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#efd66b",
+    color: "#cbe368",
     requires: new Decimal(24), // Can be a function that takes requirement increases into account
     resource: "tetrs", // Name of prestige currency
     resourceI18N: "tetrs", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
@@ -263,10 +264,10 @@ addLayer("tetr", {
 		return new Decimal(1).add(player[this.layer].points.add(1).log10().pow(5))
 	},
 	effectDescription() {
-		return `which are boosting points by ${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by ${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -291,6 +292,14 @@ addLayer("tetr", {
             unlocked(){return true}
         },
         12: {
+            title: "Meta-Upgrade I",
+            titleI18N: "Meta-Upgrade I", 
+            description: "Unlock a new upgrade.",
+            descriptionI18N: "Unlock a new upgrade.",
+            cost:function(){return new Decimal("4")},
+            unlocked(){return hasUpgrade("tetr",11)}
+        },
+        13: {
             title: "Rank Booster II",
             titleI18N: "Rank Booster II", 
             description: "Multiply ranks based on tetrs",
@@ -302,7 +311,7 @@ addLayer("tetr", {
 			},
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
             cost:function(){return new Decimal("8")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("tetr",12)}
         },
     },
     hotkeys: [],
@@ -367,6 +376,21 @@ addLayer("ach", {
             name: "First Tetr",
             done() { return player.tetr.points.gte(1) },
             tooltip: "Tetr up once.",
+        },
+        22: {
+            name: "More upgrades?",
+            done() { return hasUpgrade("tetr",12) },
+            tooltip: "Buy Meta-Upgrade I upgrade.",
+        },
+        23: {
+            name: "QoL",
+            done() { return hasUpgrade("tier",22) },
+            tooltip: "Buy Maximized I upgrade.",
+        },
+        24: {
+            name: "Tenth Tetr",
+            done() { return player.tetr.points.gte(10) },
+            tooltip: "Get Tetr 10.",
         },
     },
     tabFormat: [
