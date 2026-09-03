@@ -39,7 +39,7 @@ addLayer("rank", {
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
 	base: 1.3,
-    exponent: 1.15, // Prestige currency exponent
+    exponent: 0.9, // Prestige currency exponent
 	effect() {
 		return new Decimal(1).add(player[this.layer].points.div(5).pow(0.75))
 	},
@@ -131,7 +131,7 @@ addLayer("tier", {
     baseAmount() {return player.rank.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
 	base: 1.35,
-    exponent: 1.8, // Prestige currency exponent
+    exponent: 0.75, // Prestige currency exponent
 	effect() {
 		return new Decimal(1).add(player[this.layer].points.div(5).pow(0.5))
 	},
@@ -237,7 +237,7 @@ addLayer("tetr", {
     baseAmount() {return player.tier.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
 	base: 1.1,
-    exponent: 1.35, // Prestige currency exponent
+    exponent: 0.85, // Prestige currency exponent
 	effect() {
 		return new Decimal(1).add(player[this.layer].points.add(1).log10().pow(5))
 	},
