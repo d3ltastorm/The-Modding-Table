@@ -237,7 +237,7 @@ addLayer("tier", {
        "blank",
        ["microtabs","tab"]
     ],
-    layerShown(){return hasUpgrade("rank",14) || hasAchivement("ach",12)},
+    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",12)},
 })
 addLayer("tetr", {
     name: "tetr", // This is optional, only used in a few places, If absent it just uses the layer id
@@ -324,7 +324,7 @@ addLayer("tetr", {
        "blank",
        ["microtabs","tab"]
     ],
-    layerShown(){return hasUpgrade("rank",14) || hasAchivement("ach",21)},
+    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",21)},
 })
 addLayer("ach", {
     startData() {return {
