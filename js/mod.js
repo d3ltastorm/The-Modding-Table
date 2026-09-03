@@ -86,6 +86,9 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+	gain = gain.mul(temp.rank.effect)
+	if (hasUpgrade("rank",11)) gain = gain.mul(hasUpgrade("rank",12)?3:2)
+	if (hasUpgrade("rank",13)) gain = gain.mul(upgradeEffect("rank", 13))
 	return gain
 }
 
