@@ -41,7 +41,7 @@ addLayer("rank", {
 	base: 1.3,
     exponent: 1.15, // Prestige currency exponent
 	effect() {
-		return new Decimal(1).add(player[this.layer].points.pow(0.25))
+		return new Decimal(1).add(player[this.layer].points.div(5).pow(0.75))
 	},
 	effectDescription() {
 		return `which are boosting points by x${format(temp[this.layer].effect)}`
@@ -133,7 +133,7 @@ addLayer("tier", {
 	base: 1.35,
     exponent: 1.5, // Prestige currency exponent
 	effect() {
-		return new Decimal(1).add(player[this.layer].points.pow(0.5))
+		return new Decimal(1).add(player[this.layer].points.div(5).pow(0.5))
 	},
 	effectDescription() {
 		return `which are boosting points by x${format(temp[this.layer].effect)}`
