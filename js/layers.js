@@ -73,7 +73,7 @@ addLayer("rank", {
             description: "Add +1 to base effect of Multiplier I",
             descriptionI18N: "Add +1 to base effect of Multiplier I", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             cost:function(){return new Decimal("3")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("rank",11)}
         },
         13: {
             title: "Booster I",
@@ -88,7 +88,7 @@ addLayer("rank", {
 			},
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
             cost:function(){return new Decimal("5")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("rank",12)}
         },
         14: {
             title: "Tiers",
@@ -96,7 +96,7 @@ addLayer("rank", {
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", 
             cost:function(){return new Decimal("7")},
-            unlocked(){return true}
+            unlocked(){return hasUpgrade("rank",13)}
         },
     },
     hotkeys: [
@@ -131,7 +131,7 @@ addLayer("tier", {
     baseAmount() {return player.rank.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
 	base: 1.35,
-    exponent: 1.5, // Prestige currency exponent
+    exponent: 1.8, // Prestige currency exponent
 	effect() {
 		return new Decimal(1).add(player[this.layer].points.div(5).pow(0.5))
 	},
@@ -300,7 +300,7 @@ addLayer("tetr", {
        "blank",
        "upgrades"
     ],
-    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",21)},
+    layerShown(){return hasUpgrade("tier",21) || hasAchievement("ach",21)},
 })
 addLayer("ach", {
     startData() {return {
