@@ -51,7 +51,7 @@ addLayer("rank", {
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-		if (hasUpgrade("tier",12)) mult = mult.div(upgradeEffect("tier", 12))
+		if (hasUpgrade("tier",13)) mult = mult.div(upgradeEffect("tier", 13))
 		if (hasUpgrade("tetr",13)) mult = mult.div(1.1)
         return mult
     },
