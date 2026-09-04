@@ -380,7 +380,7 @@ addLayer("2layer", {
     color: "#fefefe",
     type: "none",
     tooltip(){return false},
-    layerShown(){return layerDisplayTotal(['reset'])},// If any layer in the array is unlocked, it will returns true. Otherwise it will return false.
+    layerShown(){return layerDisplayTotal(['r'])},// If any layer in the array is unlocked, it will returns true. Otherwise it will return false.
 	tabFormat: [
         ["display-text", function() { return getPointsDisplay() }]
     ],
