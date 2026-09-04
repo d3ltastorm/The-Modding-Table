@@ -65,7 +65,7 @@ addLayer("rank", {
             titleI18N: "Multiplier I", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply points by 2",
             descriptionI18N: "Multiply points by 2", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
-            style: {"border-radius": "40px 0 0 40px"},
+            style: {"border-radius": "15px 0 0 15px"},
             cost:function(){return new Decimal("2")},
             unlocked(){return true}
         },
@@ -98,7 +98,7 @@ addLayer("rank", {
             titleI18N: "Tiers", 
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", 
-            style: {"border-radius": "0 40px 40px 0"},
+            style: {"border-radius": "0 15px 15px 0"},
             cost:function(){return new Decimal("7")},
             unlocked(){return hasUpgrade(this.layer,13)}
         },
@@ -161,7 +161,7 @@ addLayer("tier", {
             titleI18N: "Booster I", 
             description: "Multiply points based on tiers",
             descriptionI18N: "Multiply points based on tiers",
-            style: {"border-radius": "40px 0 0 40px"},
+            style: {"border-radius": "15px 0 0 15px"},
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player[this.layer].points.add(1).log10().pow(2)) // log10(x+1)^2
@@ -200,7 +200,7 @@ addLayer("tier", {
             titleI18N: "Multiplier II", 
             description: "Multiply points based on tiers",
             descriptionI18N: "Multiply points based on tiers", 
-            style: {"border-radius": "0 40px 40px 0"},
+            style: {"border-radius": "0 15px 15px 0"},
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player[this.layer].points.root(2.5)) // root2.5(x+1)
@@ -215,7 +215,7 @@ addLayer("tier", {
             titleI18N: "Tetrs", 
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", 
-            style: {"border-radius": "0 0 40px 40px"},
+            style: {"border-radius": "0 0 15px 15px"},
             cost:function(){return new Decimal("16")},
             unlocked(){return hasUpgrade(this.layer,14)}
         },
@@ -224,7 +224,7 @@ addLayer("tier", {
             titleI18N: "Maximized I", 
             description: "Buy max Rank.",
             descriptionI18N: "Buy max Rank.", 
-            style: {"border-radius": "0 0 40px 40px"},
+            style: {"border-radius": "0 0 15px 15px"},
             cost:function(){return new Decimal("35")},
             unlocked(){return hasUpgrade("tetr",22) || hasAchievement("ach",22)}
         },
@@ -284,7 +284,7 @@ addLayer("tetr", {
             titleI18N: "Booster III", 
             description: "Multiply points based on tiers",
             descriptionI18N: "Multiply points based on tiers",
-            style: {"border-radius": "40px 0 0 40px"},
+            style: {"border-radius": "15px 0 0 15px"},
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player.tier.points.add(1).log10().pow(2)) // log10(x+1)^2
@@ -317,7 +317,7 @@ addLayer("tetr", {
             titleI18N: "Multiplier IV", 
             description: "Multiply points by 2.",
             descriptionI18N: "Multiply points by 2.",
-            style: {"border-radius": "0 40px 40px 0"},
+            style: {"border-radius": "0 15px 15px 0"},
             cost:function(){return new Decimal("6")},
             unlocked(){return hasUpgrade(this.layer,13)}
         },
@@ -326,7 +326,7 @@ addLayer("tetr", {
             titleI18N: "Rank Booster II", 
             description: "Multiply ranks based on tetrs",
             descriptionI18N: "Multiply ranks based on tetrs", 
-            style: {"border-radius": "0 0 0 40px"},
+            style: {"border-radius": "0 0 0 15px"},
 			effect() {
 				let mult = new Decimal(1);
 				mult = mult.add(player[this.layer].points.add(1).log10().cbrt()) // cbrt(log10(x+1))
@@ -350,7 +350,7 @@ addLayer("tetr", {
             titleI18N: "Maximized II", 
             description: "Buy max tiers.",
             descriptionI18N: "Buy max tiers.",
-            style: {"border-radius": "0 0 40px 0"},
+            style: {"border-radius": "0 0 15px 0"},
             cost:function(){return new Decimal("17")},
             unlocked(){return hasUpgrade(this.layer,21)}
         },
@@ -385,8 +385,8 @@ addLayer("2layer", {
         ["display-text", function() { return getPointsDisplay() }]
     ],
 })
-addLayer("reset", {
-    name: "reset", // This is optional, only used in a few places, If absent it just uses the layer id
+addLayer("re", {
+    name: "re", // This is optional, only used in a few places, If absent it just uses the layer id
     symbol: "Reset", // This appears on the layer's node. Default is the id with the first letter capitalized
     symbolI18N: "Reset", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
