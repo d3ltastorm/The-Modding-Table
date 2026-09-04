@@ -41,7 +41,7 @@ addLayer("rank", {
 	base: 1.3,
     exponent: 0.9, // Prestige currency exponent
 	effect() {
-		let eff = new Decimal(1.15).pow(player[this.layer].points.pow(0.9))
+		eff = new Decimal(1.15).pow(player[this.layer].points.pow(0.9))
 		if (player[this.layer].points.gte(15)) eff = eff.div(player[this.layer].points.div(15).pow(2).div(4))
 		return eff
 	},
@@ -140,7 +140,7 @@ addLayer("tier", {
 	base: 1.35,
     exponent: 0.75, // Prestige currency exponent
 	effect() {
-		let eff = new Decimal(1.15).pow(player[this.layer].points.pow(0.8))
+		eff = new Decimal(1.15).pow(player[this.layer].points.pow(0.8))
 		if (player[this.layer].points.gte(20)) eff = eff.div(player[this.layer].points.div(20).pow(2).div(4))
 		return eff
 	},
