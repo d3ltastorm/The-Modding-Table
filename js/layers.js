@@ -47,10 +47,10 @@ addLayer("rank", {
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>')}`
+		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>')}`
+		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -147,10 +147,10 @@ addLayer("tier", {
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>')}`
+		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>')}`
+		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
