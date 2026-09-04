@@ -41,15 +41,16 @@ addLayer("rank", {
 	base: 1.3,
     exponent: 0.9, // Prestige currency exponent
 	effect() {
-		eff = new Decimal(1.15).pow(player[this.layer].points.pow(0.9))
-		if (player[this.layer].points.gte(15)) eff = eff.div(player[this.layer].points.div(15).pow(2).div(4))
+		let pts = player[this.layer].points
+		let eff = new Decimal(1.15).pow(pts.pow(0.9))
+		if (player[this.layer].points.gte(15)) eff = eff.div(pts.div(15).pow(2).div(4))
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)}${layer[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>'}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}${player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>'}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)}${layer[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>'}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}${player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>'}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -140,15 +141,16 @@ addLayer("tier", {
 	base: 1.35,
     exponent: 0.75, // Prestige currency exponent
 	effect() {
-		eff = new Decimal(1.15).pow(player[this.layer].points.pow(0.8))
-		if (player[this.layer].points.gte(20)) eff = eff.div(player[this.layer].points.div(20).pow(2).div(4))
+		let pts = player[this.layer].points
+		let eff = new Decimal(1.15).pow(pts.pow(0.8))
+		if (pts.gte(20)) eff = eff.div(pts.div(20).pow(2).div(4))
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)}${layer[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>'}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}${player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>'}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)}${layer[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>'}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}${player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>'}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
