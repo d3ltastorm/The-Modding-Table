@@ -43,14 +43,15 @@ addLayer("rank", {
 	effect() {
 		let pts = player[this.layer].points
 		let eff = new Decimal(1.45).pow(pts.pow(0.9))
-		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(2).div(5)))
+		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
+		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
+		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:"")}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
+		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:"")}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
