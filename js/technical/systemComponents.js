@@ -40,7 +40,6 @@ var systemComponents = {
 			<div class="upgRow">
 				<div v-for="tab in Object.keys(data)">
 					<button v-if="data[tab].unlocked == undefined || data[tab].unlocked"
-					style="font-family: cursive;"
 					v-bind:class="{
 						tabButton: true,
 						notify: subtabShouldNotify(layer, name, tab),
@@ -116,7 +115,7 @@ var systemComponents = {
 				small: tmp[layer].small
 			}"
 			v-bind:style="constructNodeStyle(layer)">
-			<span style="font-family: cursive;" v-html="(abb !== '' && tmp[layer].image === undefined) ? (abb+(tmp[layer].notify && player[layer].unlocked?'<red>!</red>':'')) : '&nbsp;'"></span>
+			<span v-html="(abb !== '' && tmp[layer].image === undefined) ? (abb+(tmp[layer].notify && player[layer].unlocked?'<red>!</red>':'')) : '&nbsp;'"></span>
 			<node-mark :layer='layer' :data='tmp[layer].marked'></node-mark>
 		</button>
 		`
