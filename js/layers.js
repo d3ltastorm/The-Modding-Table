@@ -238,7 +238,7 @@ addLayer("tier", {
        "blank",
        "upgrades"
     ],
-    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",21)},
+    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",12)},
 })
 addLayer("tetr", {
     name: "tetr", // This is optional, only used in a few places, If absent it just uses the layer id
