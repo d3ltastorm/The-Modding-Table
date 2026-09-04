@@ -437,7 +437,7 @@ addLayer("r", {
             descriptionI18N: "Multiply points based on reset points", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.pow(0.5).div(10)) // sqrt(x)/10
+				mult = mult.add(player[this.layer].points.pow(0.5).div(2)) // sqrt(x)/2
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
