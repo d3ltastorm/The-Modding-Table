@@ -43,7 +43,7 @@ addLayer("rank", {
 	effect() {
 		let pts = player[this.layer].points
 		let eff = new Decimal(1.15).pow(pts.pow(0.9))
-		if (player[this.layer].points.gte(15)) eff = eff.div(pts.div(15).pow(2).div(4))
+		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(2).div(5)))
 		return eff
 	},
 	effectDescription() {
@@ -143,7 +143,7 @@ addLayer("tier", {
 	effect() {
 		let pts = player[this.layer].points
 		let eff = new Decimal(1.15).pow(pts.pow(0.8))
-		if (pts.gte(20)) eff = eff.div(pts.div(20).pow(2).div(4))
+		if (pts.gte(20)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(2).div(5)))
 		return eff
 	},
 	effectDescription() {
