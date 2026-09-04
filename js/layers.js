@@ -551,7 +551,7 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === this.layer) layerDataReset("reset")
+        if (resettingLayer === this.layer) layerDataReset("r")
     },
     upgrades: {
         11: {
