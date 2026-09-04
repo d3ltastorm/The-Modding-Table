@@ -53,7 +53,7 @@ addLayer("rank", {
         mult = new Decimal(1)
 		if (hasUpgrade("tier",13)) mult = mult.div(upgradeEffect("tier", 13))
 		if (hasUpgrade("tetr",13)) mult = mult.div(1.1)
-		if (hasUpgrade("r",13)) gain = gain.mul(1.15)
+		if (hasUpgrade("r",13)) mult = mult.div(1.15)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -227,7 +227,7 @@ addLayer("tier", {
             descriptionI18N: "Buy max Rank.", 
             style: {"border-radius": "0 0 15px 15px"},
             cost:function(){return new Decimal("35")},
-            unlocked(){return hasUpgrade("tetr",22) || hasAchievement("ach",22)}
+            unlocked(){return hasUpgrade("tetr",22) || hasAchievement("ach",25)}
         },
     },
     hotkeys: [],
@@ -238,7 +238,7 @@ addLayer("tier", {
        "blank",
        "upgrades"
     ],
-    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",12)},
+    layerShown(){return hasUpgrade("rank",14) || hasAchievement("ach",21)},
 })
 addLayer("tetr", {
     name: "tetr", // This is optional, only used in a few places, If absent it just uses the layer id
@@ -364,7 +364,7 @@ addLayer("tetr", {
        "blank",
        "upgrades"
     ],
-    layerShown(){return hasUpgrade("tier",21) || hasAchievement("ach",21)},
+    layerShown(){return hasUpgrade("tier",21) || hasAchievement("ach",23)},
 })
 addLayer("2layer", {
     name: "sideLayer2",
@@ -407,7 +407,9 @@ addLayer("r", {
     exponent: 0.6, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-		if (hasUpgrade(this.layer,13)) mult = mult.div(upgradeEffect(this.layer, 14))
+		if (hasUpgrade(this.layer,14)) mult = mult.div(upgradeEffect(this.layer, 14))
+		if (hasUpgrade(this.layer,21)) mult = mult.div(upgradeEffect(this.layer, 21))
+		if (hasUpgrade("reb",11)) mult = mult.div(1.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -486,6 +488,14 @@ addLayer("r", {
             cost:function(){return new Decimal("150")},
             unlocked(){return hasUpgrade(this.layer,21)}
         },
+        23: {
+            title: "Rebirth",
+            titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Unlock a new layer.",
+            descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            cost:function(){return new Decimal("1000")},
+            unlocked(){return hasUpgrade(this.layer,22)}
+        },
     },
     hotkeys: [
         {key: "r", description: "R: Reset", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -557,19 +567,21 @@ addLayer("reb", {
        "blank",
        "upgrades"
     ],
-    layerShown(){return player.points.gte(1_000) || hasAchievement("ach",14)},
+    layerShown(){return player.points.gte(1_000) || hasAchievement("ach",32)},
 })
 addLayer("ach", {
-    startData() {return {
-        unlocked: true
-    }},
-    color: "#FFFF00",
+    name: "ach",
     position: -1,
     row: -1,
+    symbol() {return '[[ Achievements ]]'}, // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N() {return '[[ Achievements ]]'}, // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled (in mod.js)
+    small: true,// Set to true to generate a slightly smaller layer node
     nodeStyle: {"font-size": "15px", "height": "30px"},// Style for the layer button
+    startData() { return {
+        unlocked: true,
+    }},
+    color: "#fe0000",
     layerShown() {return true},
-    symbol: "Achievements",
-    symbolI18N: "Achievements",
     achievements: {
         11: {
             name: "First Rank",
@@ -592,29 +604,44 @@ addLayer("ach", {
             tooltip: "Get 1,000 points.",
         },
         15: {
+            name: "Start over",
+            done() { return player.r.points.gte(1) },
+            tooltip: "Reset once.",
+        },
+        21: {
             name: "Tenth Tier",
             done() { return player.tier.points.gte(10) },
             tooltip: "Get Tier 10.",
         },
-        21: {
+        22: {
+            name: "Too many resets!",
+            done() { return player.r.points.gte(25) },
+            tooltip: "Get 25 reset points.",
+        },
+        23: {
             name: "First Tetr",
             done() { return player.tetr.points.gte(1) },
             tooltip: "Tetr up once.",
         },
-        22: {
+        24: {
             name: "More upgrades?",
             done() { return hasUpgrade("tetr",12) },
             tooltip: "Buy Meta-Upgrade I upgrade.",
         },
-        23: {
+        25: {
             name: "QoL",
             done() { return hasUpgrade("tier",22) },
             tooltip: "Buy Maximized I upgrade.",
         },
-        24: {
+        31: {
             name: "Tenth Tetr",
             done() { return player.tetr.points.gte(10) },
             tooltip: "Get Tetr 10.",
+        },
+        32: {
+            name: "Reborn",
+            done() { return player.reb.points.gte(1) },
+            tooltip: "Rebirth once.",
         },
     },
     tabFormat: [
