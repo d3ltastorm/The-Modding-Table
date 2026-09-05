@@ -40,9 +40,11 @@ function sumValues(x) {
     return x.reduce((a, b) => Decimal.add(a, b))
 }
 
-function format(decimal, precision = 2, small) {
+function format(decimal, precision = 2, small, forceShitStandart) {
     small = small || modInfo.allowSmall
     decimal = new Decimal(decimal)
+    forceShitStandart = forceShitStandart || options.shitStandart
+    if (forceShitStandart) { return formatShitStandart(decimal) }
     if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
         player.hasNaN = true;
         return "NaN"
@@ -169,20 +171,14 @@ function shitStandart(illion) {
 function formatShitStandart(number) {
     let s = "";
     if (number.lt(1000)) {
-        s = formatWhole(number)
+        s = format(number,2)
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
-        s = `${formatWhole(number.div(new Decimal(1000).pow(number.log(1000).floor())))}${shitStandart(number.log(1000).sub(1).floor())}`
+        s = `${format(number.div(new Decimal(1000).pow(number.log(1000).floor())),2)}${shitStandart(number.log(1000).sub(1).floor())}`
     } else {
         s = shitStandart(number.log(1000).sub(1).floor())
     };
     return s
 };
-function notationFormat(isShitStandart, decimal, precision, small) {
-    return isShitStandart ? formatShitStandart(decimal) : format(decimal, precision, small)
-}
-function notationFormatWhole(isShitStandart, decimal) {
-    return isShitStandart ? formatShitStandart(decimal) : formatWhole(decimal)
-}
 
 function formatTime(s) {
     if (s < 60) return format(s) + "s"
