@@ -177,6 +177,12 @@ function formatShitStandart(number) {
     };
     return s
 };
+function notationFormat(isShitStandart, decimal, precision, small) {
+    return isShitStandart ? formatShitStandart(decimal) : format(decimal, precision, small)
+}
+function notationFormatWhole(isShitStandart, decimal) {
+    return isShitStandart ? formatShitStandart(decimal) : formatWhole(decimal)
+}
 
 function formatTime(s) {
     if (s < 60) return format(s) + "s"
