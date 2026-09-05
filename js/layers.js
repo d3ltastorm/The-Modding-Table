@@ -459,7 +459,7 @@ addLayer("rank", {
 	effect() {
 		let pts = player[this.layer].points
 		let eff = new Decimal(1.5).pow(pts.pow(0.8))
-		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
+		if (pts.gte(15)) eff = eff.root(new Decimal(1).add(pts.div(15).sqrt().div(25)))
 		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
 		return eff
 	},
@@ -575,7 +575,7 @@ addLayer("tier", {
 	effect() {
 		let pts = player[this.layer].points
 		let pointMulti = new Decimal(1.3).pow(pts.pow(0.7))
-		if (pts.gte(20)) pointMulti = pointMulti.div(new Decimal(1).add(pts.div(20).pow(3).div(5)))
+		if (pts.gte(20)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(20).sqrt().div(20)))
 		if (pts.gte(250)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
 		let resetMulti = new Decimal(1.2).pow(pts.pow(0.4))
 		if (pts.gte(20)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(20).sqrt().div(5)))
@@ -705,7 +705,7 @@ addLayer("tetr", {
 	effect() {
 		let pts = player[this.layer].points
 		let pointMulti = new Decimal(1.5).pow(pts.pow(0.7))
-		if (pts.gte(30)) pointMulti = pointMulti.div(new Decimal(1).add(pts.div(20).pow(3).div(5)))
+		if (pts.gte(30)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(30).sqrt().div(20)))
 		if (pts.gte(250)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
 		let resetMulti = new Decimal(1.3).pow(pts.pow(0.4))
 		if (pts.gte(30)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(30).sqrt().div(5)))
