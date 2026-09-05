@@ -30,7 +30,7 @@ addLayer("r", {
 		points: new Decimal(0),
     }},
     color: "#08c5e7",
-    requires: new Decimal(2_500), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "reset points", // Name of prestige currency
     resourceI18N: "reset points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "points", // Name of resource prestige is based on
