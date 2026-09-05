@@ -53,7 +53,10 @@ addLayer("r", {
         return hasUpgrade("reb", 22)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "r" && resettingLayer !== "rank") layerDataReset("r")
+        if (resettingLayer !== "r"
+			&& resettingLayer !== "rank"
+			&& resettingLayer !== "tier"
+			&& resettingLayer !== "tetr") layerDataReset("r")
     },
     upgrades: {
         11: {
@@ -88,7 +91,7 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player.points.add(1).log10().pow(3).div(10)) // (log10(x+1)^3)/10
+				mult = mult.add(player.points.add(1).log10().pow(2).div(10)) // (log10(x+1)^2)/10
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -182,7 +185,10 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "reb" && resettingLayer !== "tier") layerDataReset("reb")
+        if (resettingLayer !== "reb"
+			&& resettingLayer !== "rank"
+			&& resettingLayer !== "tier"
+			&& resettingLayer !== "tetr") layerDataReset("reb")
     },
     upgrades: {
         11: {
