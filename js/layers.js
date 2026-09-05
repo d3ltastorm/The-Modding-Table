@@ -54,8 +54,8 @@ addLayer("r", {
         return hasUpgrade("reb", 22)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "r"
-			&& resettingLayer !== "rank") layerDataReset("r")
+        if (resettingLayer === "reb"
+		   && resettingLayer === "pres") layerDataReset("r")
     },
     upgrades: {
         11: {
@@ -193,8 +193,7 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "reb"
-			&& resettingLayer !== "tier") layerDataReset("reb")
+        if (resettingLayer === "pres") layerDataReset("reb")
     },
     upgrades: {
         11: {
@@ -483,7 +482,8 @@ addLayer("rank", {
     },
 	canBuyMax() {return hasUpgrade("reb",12)},
 	doReset(resettingLayer) {
-        if (resettingLayer !== "rank") layerDataReset("rank")
+        if (resettingLayer === "tier"
+		   && resettingLayer === "tetr") layerDataReset("rank")
     },
     resetsNothing() {
         return hasUpgrade("reb",14)
@@ -593,7 +593,7 @@ addLayer("tier", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "tier") layerDataReset("tier")
+        if (resettingLayer === "tetr") layerDataReset("tier")
     },
 	canBuyMax() {return hasUpgrade("pres",13)},
     resetsNothing() {
@@ -720,9 +720,6 @@ addLayer("tetr", {
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
-    },
-	doReset(resettingLayer) {
-        if (resettingLayer !== "tetr") layerDataReset("tetr")
     },
     upgrades: {
         11: {
