@@ -229,7 +229,7 @@ addLayer("reb", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("65")},
+            cost:function(){return new Decimal("250")},
             unlocked(){return hasUpgrade(this.layer,12)}
         },
        	14: {
@@ -459,9 +459,9 @@ addLayer("rank", {
     exponent: 0.8, // Prestige currency exponent
 	effect() {
 		let pts = player[this.layer].points
-		let eff = new Decimal(1.5).pow(pts.pow(0.8))
-		if (pts.gte(15)) eff = eff.root(new Decimal(1).add(pts.div(15).sqrt().div(25)))
-		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
+		let eff = new Decimal(1.25).pow(pts.pow(0.8))
+		if (pts.gte(15)) eff = eff.root(new Decimal(1).add(pts.div(15).sqrt().div(10)))
+		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(2)))
 		return eff
 	},
 	effectDescription() {
@@ -687,7 +687,7 @@ addLayer("tetr", {
     name: "tetr", // This is optional, only used in a few places, If absent it just uses the layer id
     symbol: "Tetrs (Ŧ)", // This appears on the layer's node. Default is the id with the first letter capitalized
     symbolI18N: "Tetrs (Ŧ)", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     row: 1, // Row the layer is in on the tree (0 is the first row)
     startData() { return {
         unlocked: true,
@@ -804,6 +804,73 @@ addLayer("tetr", {
        "upgrades"
     ],
     layerShown(){return hasUpgrade("tier",21) || hasAchievement("ach",23)},
+})
+addLayer("pent", {
+    name: "pent", // This is optional, only used in a few places, If absent it just uses the layer id
+    symbol: "Pents (P)", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N: "Pents (P)", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
+    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#63ee96",
+    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    resource: "pents", // Name of prestige currency
+    resourceI18N: "pents", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
+    baseResource: "tetrs", // Name of resource prestige is based on
+    baseResourceI18N: "tetrs", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
+    baseAmount() {return player.tetr.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+	base: 1.2,
+    exponent: 0.6, // Prestige currency exponent
+	effect() {
+		let pts = player[this.layer].points
+		let pointMulti = new Decimal(4).pow(pts.pow(0.8))
+		if (pts.gte(30)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(30).sqrt().div(20)))
+		if (pts.gte(100)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(100).sqrt().div(5)))
+		let resetMulti = new Decimal(1.5).pow(pts.pow(0.4))
+		if (pts.gte(30)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(30).sqrt().div(15)))
+		if (pts.gte(100)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(100).cbrt().div(5)))
+		let rankMulti = new Decimal(1.25).pow(pts.pow(0.6))
+		if (pts.gte(30)) rankMulti = rankMulti.div(new Decimal(1).add(pts.div(30).sqrt().div(10)))
+		if (pts.gte(100)) rankMulti = rankMulti.root(new Decimal(1).add(pts.div(100).cbrt().div(5)))
+		let tierMulti = new Decimal(1.1).pow(pts.pow(0.4))
+		if (pts.gte(30)) tierMulti = tierMulti.div(new Decimal(1).add(pts.div(30).sqrt().div(5)))
+		if (pts.gte(100)) tierMulti = tierMulti.root(new Decimal(1).add(pts.div(100).cbrt().div(5)))
+		let eff = [pointMulti, resetMulti, rankMulti, tierMulti]
+		return eff
+	},
+	effectDescription() {
+		return `which are boosting points by x${format(temp[this.layer].effect[0])}, reset points by x${format(temp[this.layer].effect[1])}, ranks by x${format(temp[this.layer].effect[2])}, and tiers by x${format(temp[this.layer].effect[3])}${player[this.layer].points.gte(30)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(50)?"<sup>2</sup>":""})</span>`:""}`
+	},
+	effectDescriptionI18N() {
+		return `which are boosting points by x${format(temp[this.layer].effect[0])}, reset points by x${format(temp[this.layer].effect[1])}, ranks by x${format(temp[this.layer].effect[2])}, and tiers by x${format(temp[this.layer].effect[3])}${player[this.layer].points.gte(30)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(50)?"<sup>2</sup>":""})</span>`:""}`
+	},
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    milestones: {
+        0: {
+            requirementDescription() { return `Pent ${formatWhole(3)}` },
+            effectDescription: "Keep your Rank and Tier upgrades on reset.",
+            done() { return player[this.layer].points.gte(3)}
+        }
+    },
+    hotkeys: [],
+    tabFormat: [
+       ["display-text", function() { return getPointsDisplay() }],
+       "main-display",
+       "prestige-button",
+       "blank",
+       "upgrades"
+    ],
+    layerShown(){return true},
 })
 addLayer("ach", {
     name: "ach",
