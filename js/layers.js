@@ -40,6 +40,7 @@ addLayer("r", {
     exponent: 0.6, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+		mult = mult.mul(temp.rank.effect[1])
 		if (hasUpgrade(this.layer,14)) mult = mult.mul(upgradeEffect(this.layer, 14))
 		if (hasUpgrade(this.layer,21)) mult = mult.mul(upgradeEffect(this.layer, 21))
 		if (hasUpgrade("reb",11)) mult = mult.mul(1.5)
@@ -309,16 +310,19 @@ addLayer("rank", {
     exponent: 0.7, // Prestige currency exponent
 	effect() {
 		let pts = player[this.layer].points
-		let eff = new Decimal(1.6).pow(pts.pow(0.7))
-		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
-		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
-		return eff
+		let pointMulti = new Decimal(1.6).pow(pts.pow(0.7))
+		if (pts.gte(15)) pointMulti = pointMulti.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
+		if (pts.gte(250)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
+		let resetMulti = new Decimal(1.1).pow(pts.pow(0.4))
+		if (pts.gte(15)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(25).sqrt().div(5)))
+		if (pts.gte(250)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(250).cbrt().div(5)))
+		return [pointMulti, resetMulti]
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:"")}`
+		return `which are boosting points by x${format(temp[this.layer].effect} and reset points by ${resetMulti}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:"")}`
+		return `which are boosting points by x${format(temp[this.layer].effect} and reset points by ${resetMulti}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
