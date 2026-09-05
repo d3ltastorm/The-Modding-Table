@@ -234,6 +234,7 @@ var systemComponents = {
                 <td><button class="opt" onclick="toggleOpt('hideChallenges')">{{i18n('已完成挑战', 'Completed Challenges', false)}}: {{ options.hideChallenges?(i18n("隐藏", "HIDDI18N", false)):(i18n("显示", "SHOWN", false)) }}</button></td>
                 <td><button class="opt" onclick="adjustMSDisp()">{{ i18n('显示里程碑', 'Show Milestones', false) }}: {{ i18n(MS_DISPLAYS[MS_SETTINGS.indexOf(options.msDisplay)], MS_DISPLAYS_I18N[MS_SETTINGS.indexOf(options.msDisplay)], false)}}</button></td>
                 <td><button class="opt" onclick="toggleOpt('cursive')">{{i18n('全页面草书字体', 'Cursive Font', false)}}: {{ options.cursive?(i18n("已开启", "ON", false)):(i18n("已关闭", "OFF", false)) }}<br><h6>{{ i18n("(注: 字体会根据你的浏览器的默认字体而改变, 对于不同浏览器可能会有不同效果, 对于部分浏览器可能无效)", "(Note: The font will change according to your browser's default font. Effects may vary across different browsers, and may not work in some browsers)", false)}}</h6></button></td>
+				<td><button class="opt" onclick="toggleOpt('shitStandart')">Shit standart: {{ options.cursive?(i18n("已开启", "ON", false)):(i18n("已关闭", "OFF", false)) }}<br><h6>WARNING: You might be confused!</h6></button></td>
 			</tr> <br>
 			<tr>
 				<td><h1>{{modInfo.internationalizationMod?(i18n('语言', 'language', false)):""}}&nbsp;&nbsp;&nbsp;</h1></td>
