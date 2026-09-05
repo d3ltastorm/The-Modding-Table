@@ -163,7 +163,7 @@ function shitStandart(illion) {
         } else {
             return `${a[4].split(" ")[illion.div(1000).floor().toNumber()]}${a[1].split(" ")[illion.mod(10).toNumber()]}${a[2].split(" ")[illion.div(10).floor().mod(10).toNumber()]}${a[3].split(" ")[illion.div(100).floor().mod(10).toNumber()]}`
         }
-    } else if (illion.lt(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000))))) {
+    } else {
         let e = illion.log10().div(4).floor();
         let tier2ill = e;
         let s = "";
