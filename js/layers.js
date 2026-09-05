@@ -51,6 +51,9 @@ addLayer("r", {
 	passiveGeneration() {
         return hasUpgrade("reb", 22)
     },
+	doReset(resettingLayer) {
+        if (resettingLayer !== "r") layerDataReset("r")
+    },
     upgrades: {
         11: {
             title: "Multiplier I",
@@ -178,7 +181,7 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === "reb") layerDataReset("r")
+        if (resettingLayer !== "reb") layerDataReset("reb")
     },
     upgrades: {
         11: {
@@ -328,6 +331,9 @@ addLayer("rank", {
         return new Decimal(1)
     },
 	canBuyMax() {return hasUpgrade("reb",12)},
+	doReset(resettingLayer) {
+        if (resettingLayer !== "rank") layerDataReset("rank")
+    },
     upgrades: {
         11: {
             title: "Multiplier IV",
@@ -425,7 +431,7 @@ addLayer("tier", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === "tier") layerDataReset("rank")
+        if (resettingLayer !== "tier") layerDataReset("tier")
     },
 	canBuyMax() {return hasUpgrade("reb",22)},
     upgrades: {
@@ -540,7 +546,7 @@ addLayer("tetr", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === "tetr") layerDataReset("tier")
+        if (resettingLayer !== "tetr") layerDataReset("tetr")
     },
     upgrades: {
         11: {
