@@ -858,7 +858,9 @@ addLayer("pent", {
     milestones: {
         0: {
             requirementDescription() { return `Pent ${formatWhole(3)}` },
+            requirementDescriptionI18N() { return `Pent ${formatWhole(3)}` },
             effectDescription: "Keep your Rank and Tier upgrades on reset.",
+            effectDescriptionI18N: "Keep your Rank and Tier upgrades on reset.",
             done() { return player[this.layer].points.gte(3)}
         }
     },
