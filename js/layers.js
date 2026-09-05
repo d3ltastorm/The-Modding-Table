@@ -84,11 +84,11 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player.points.add(1).log10().pow(3).div(100)) // (log10(x+1)^3)/2
+				mult = mult.add(player.points.add(1).log10().pow(3).div(10)) // (log10(x+1)^3)/10
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("15")},
+            cost:function(){return new Decimal("4")},
             unlocked(){return hasUpgrade(this.layer,12)}
         },
         14: {
@@ -99,11 +99,11 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().sqrt().div(4)) // sqrt(log10(x+1))/4
+				mult = mult.add(player[this.layer].points.add(1).log10().sqrt().div(10)) // sqrt(log10(x+1))/4
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("52")},
+            cost:function(){return new Decimal("15")},
             unlocked(){return hasUpgrade(this.layer,13)}
         },
         21: {
@@ -118,7 +118,7 @@ addLayer("r", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("150")},
+            cost:function(){return new Decimal("25")},
             unlocked(){return hasUpgrade(this.layer,14)}
         },
         22: {
@@ -126,7 +126,7 @@ addLayer("r", {
             titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
-            cost:function(){return new Decimal("1000")},
+            cost:function(){return new Decimal("500")},
             unlocked(){return hasUpgrade(this.layer,21)}
         },
     },
@@ -153,7 +153,7 @@ addLayer("reb", {
 		points: new Decimal(0),
     }},
     color: "#16a1d0",
-    requires: new Decimal(1_000), // Can be a function that takes requirement increases into account
+    requires: new Decimal(500), // Can be a function that takes requirement increases into account
     resource: "rebirth points", // Name of prestige currency
     resourceI18N: "rebirth points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "reset points", // Name of resource prestige is based on
@@ -187,7 +187,7 @@ addLayer("reb", {
             description: "Multiply reset points by 1.5",
             descriptionI18N: "Multiply reset points by 1.5", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("3")},
+            cost:function(){return new Decimal("1")},
             unlocked(){return true}
         },
        	12: {
