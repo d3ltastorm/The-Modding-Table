@@ -171,9 +171,9 @@ function shitStandart(illion) {
 function formatShitStandart(number) {
     let s = "";
     if (number.lt(1000)) {
-        s = format(number,2)
+        s = number.toStringWithDecimalPlaces(2)
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
-        s = `${format(number.div(new Decimal(1000).pow(number.log(1000).floor())),2)}${shitStandart(number.log(1000).sub(1).floor())}`
+        s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
     } else {
         s = shitStandart(number.log(1000).sub(1).floor())
     };
