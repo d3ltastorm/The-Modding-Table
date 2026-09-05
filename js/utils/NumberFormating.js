@@ -76,6 +76,8 @@ function format(decimal, precision = 2, small, forceShitStandart) {
 
 function formatWhole(decimal) {
     decimal = new Decimal(decimal)
+    forceShitStandart = forceShitStandart || options.shitStandart
+    if (forceShitStandart) return formatShitStandartWhole(decimal)
     if (decimal.gte(1e9)) return format(decimal, 2)
     if (decimal.lte(0.99) && !decimal.eq(0)) return format(decimal, 2)
     return format(decimal, 0)
@@ -170,8 +172,23 @@ function shitStandart(illion) {
 };
 function formatShitStandart(number) {
     let s = "";
-    if (number.lt(1000)) {
+    if (number.lt(0)) {
+        s = `-${formatShitStandart(number.neg())}`
+    } else if (number.lt(1000)) {
         s = number.toStringWithDecimalPlaces(2)
+    } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
+        s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
+    } else {
+        s = shitStandart(number.log(1000).sub(1).floor())
+    };
+    return s
+};
+function formatShitStandartWhole(number) {
+    let s = "";
+    if (number.lt(0)) {
+        s = `-${formatShitStandartWhole(number.neg().floor())}`
+    } else if (number.lt(1000)) {
+        s = number.floor()
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
         s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
     } else {
