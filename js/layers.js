@@ -55,9 +55,7 @@ addLayer("r", {
     },
 	doReset(resettingLayer) {
         if (resettingLayer !== "r"
-			&& resettingLayer !== "rank"
-			&& resettingLayer !== "tier"
-			&& resettingLayer !== "tetr") layerDataReset("r")
+			&& resettingLayer !== "rank") layerDataReset("r")
     },
     upgrades: {
         11: {
@@ -196,9 +194,7 @@ addLayer("reb", {
     },
 	doReset(resettingLayer) {
         if (resettingLayer !== "reb"
-			&& resettingLayer !== "rank"
-			&& resettingLayer !== "tier"
-			&& resettingLayer !== "tetr") layerDataReset("reb")
+			&& resettingLayer !== "tier") layerDataReset("reb")
     },
     upgrades: {
         11: {
@@ -317,8 +313,6 @@ addLayer("pres", {
     },
 	doReset(resettingLayer) {
         if (resettingLayer !== "pres"
-			&& resettingLayer !== "rank"
-			&& resettingLayer !== "tier"
 			&& resettingLayer !== "tetr") layerDataReset("pres")
     },
     upgrades: {
