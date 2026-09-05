@@ -78,6 +78,105 @@ function formatWhole(decimal) {
     if (decimal.lte(0.99) && !decimal.eq(0)) return format(decimal, 2)
     return format(decimal, 0)
 }
+function shitStandart(illion) {
+    let a = [
+        "k M B T q Q s S O N",
+        " u d t q Q s S o n",
+        " D V Tg qg Qg sg Sg Og Ng",
+        " C De Te qe Qe se Se Oe Ne",
+        " Mi Dl Tl ql Ql sl Sl Ol Nl",
+        " α β γ δ ε ζ η θ ι",
+        " κ λ μ ν ξ ο π ρ σ",
+        " τ υ φ χ ψ ω ϱ ϸ ϟ",
+        " 'α 'β 'γ 'δ 'ε 'ζ 'η 'θ 'ι",
+        " а б в г д е ж з и",
+        " й к л м н о п р с",
+        " т у ф х ц ч ш щ ь",
+        " 'а 'б 'в 'г 'д 'е 'ж 'з 'и"
+    ];
+    function Tier1OnTier2(ill,thr=0) {
+        if (ill.gte(thr)) return `${a[4].split(" ")[ill.div(1000).floor().toNumber()]}${a[1].split(" ")[ill.mod(10).toNumber()]}${a[2].split(" ")[ill.div(10).floor().mod(10).toNumber()]}${a[3].split(" ")[ill.div(100).floor().mod(10).toNumber()]}`
+        else return ""
+    }
+    function Tier2(ill) {
+        if (ill.eq(0)) return "";
+        let st = [];
+        let e = ill.log(2).floor().toNumber();
+        for (let i = (e>10?e-10:0); i <= e; i++) {
+            if (ill.div(new Decimal(2).pow(i)).floor().mod(2).eq(1)) {
+                st.push(`${a[5].split(" ")[(i+1)%10]}${a[6].split(" ")[Math.floor((i+1)/10)%10]}${a[7].split(" ")[Math.floor((i+1)/100)%10]}${a[8].split(" ")[Math.floor((i+1)/1000)]}`);
+            }
+        };
+        return st.join("-")
+    }
+    function Tier3(ill) {
+        if (ill.eq(0)) return "";
+        let st = [];
+        let e = ill.log(2).floor().toNumber();
+        for (let i = (e>10?e-10:0); i <= e; i++) {
+            if (ill.div(new Decimal(2).pow(i)).floor().mod(2).eq(1)) {
+                st.push(`${a[9].split(" ")[(i+1)%10]}${a[10].split(" ")[Math.floor((i+1)/10)%10]}${a[11].split(" ")[Math.floor((i+1)/100)%10]}${a[12].split(" ")[Math.floor((i+1)/1000)]}`);
+            }
+        };
+        return st.join("=")
+    }
+    function g(number) {
+        return illion.div(new Decimal(10000).pow(number)).floor().mod(10000)
+    }
+    function h(number) {
+        return illion.log10().div(4).log(2).div(new Decimal(10000).pow(number)).floor().mod(10000)
+    }
+    if (illion.lt(10000)) {
+        if (illion.lt(10)) {
+            return a[0].split(" ")[illion.toNumber()]
+        } else {
+            return `${a[4].split(" ")[illion.div(1000).floor().toNumber()]}${a[1].split(" ")[illion.mod(10).toNumber()]}${a[2].split(" ")[illion.div(10).floor().mod(10).toNumber()]}${a[3].split(" ")[illion.div(100).floor().mod(10).toNumber()]}`
+        }
+    } else if (illion.lt(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000))))) {
+        let e = illion.log10().div(4).floor();
+        let tier2ill = e;
+        let s = "";
+        if (e.gte(1024)) {
+            return Tier2(e)
+        };
+        for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
+            if (i === 0) {
+                if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill), 2)}${Tier2(tier2ill)}`
+            } else {
+                if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill))}${Tier2(tier2ill)}`
+            }
+            tier2ill = tier2ill.sub(1)
+        };
+        return s
+    } else {
+        let e = illion.log10().div(4).log(2).log10().div(4).floor();
+        let tier3ill = e;
+        let s = [];
+        if (e.gte(1024)) {
+            return Tier3(e)
+        };
+        for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
+            if (i === 0) {
+                if (!h(tier3ill).eq(0)) s.push(`${h(tier3ill).gte(2)?Tier2(h(tier3ill)):""}${Tier3(tier3ill)}`)
+            } else {
+                if (!h(tier3ill).eq(0)) s.push(`${Tier2(h(tier3ill))}${Tier3(tier3ill)}`)
+            }
+            tier3ill = tier3ill.sub(1)
+        };
+        return s.join("-")
+    }
+};
+function formatShitStandart(number) {
+    let s = "";
+    if (number.lt(1000)) {
+        s = formatWhole(number)
+    } else if (number.lt(new Decimal(10).pow(1_0000_0000))) {
+        s = `${formatWhole(number.div(new Decimal(1000).pow(number.log(1000).floor())))}${shitStandart3(number.log(1000).sub(1))}`
+    } else {
+        s = shitStandart3(number.log(1000).sub(1))
+    };
+    return s
+};
 
 function formatTime(s) {
     if (s < 60) return format(s) + "s"
