@@ -320,10 +320,10 @@ addLayer("rank", {
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect} and reset points by ${resetMulti}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
+		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by ${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect} and reset points by ${resetMulti}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
+		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by ${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
