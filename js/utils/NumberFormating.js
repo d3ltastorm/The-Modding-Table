@@ -44,7 +44,8 @@ function format(decimal, precision = 2, small, forceShitStandart) {
     small = small || modInfo.allowSmall
     decimal = new Decimal(decimal)
     forceShitStandart = forceShitStandart || options.shitStandart
-    if (forceShitStandart) { return formatShitStandart(decimal) }
+    if (forceShitStandart
+       && number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) { return formatShitStandart(decimal) }
     if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
         player.hasNaN = true;
         return "NaN"
@@ -192,15 +193,8 @@ function formatShitStandart(number) {
         s = number.toStringWithDecimalPlaces(2)
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
         s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
-    } else if (number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) {
-        s = shitStandart(number.log(1000).sub(1).floor())
     } else {
-        if (number.gte("eeee1000")) {
-            var slog = number.slog()
-            if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
-            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
-        }
-        return exponentialFormat(number, 0, false)
+        s = shitStandart(number.log(1000).sub(1).floor())
     };
     return s
 };
@@ -212,15 +206,8 @@ function formatShitStandartWhole(number) {
         s = number.floor()
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
         s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
-    } else if (number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) {
-        s = shitStandart(number.log(1000).sub(1).floor())
     } else {
-        if (number.gte("eeee1000")) {
-            var slog = number.slog()
-            if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
-            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
-        }
-        return exponentialFormat(number, 0, false)
+        s = shitStandart(number.log(1000).sub(1).floor())
     };
     return s
 };
