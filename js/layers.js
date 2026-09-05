@@ -53,7 +53,7 @@ addLayer("r", {
         return hasUpgrade("reb", 22)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "r") layerDataReset("r")
+        if (resettingLayer !== "r" && resettingLayer !== "rank") layerDataReset("r")
     },
     upgrades: {
         11: {
@@ -182,7 +182,7 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer !== "reb") layerDataReset("reb")
+        if (resettingLayer !== "reb" && resettingLayer !== "tier") layerDataReset("reb")
     },
     upgrades: {
         11: {
