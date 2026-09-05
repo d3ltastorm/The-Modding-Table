@@ -233,7 +233,7 @@ var systemComponents = {
 				<td><h1>{{i18n('显示', 'Display', false)}}&nbsp;&nbsp;&nbsp;</h1></td>
                 <td><button class="opt" onclick="toggleOpt('hideChallenges')">{{i18n('已完成挑战', 'Completed Challenges', false)}}: {{ options.hideChallenges?(i18n("隐藏", "HIDDI18N", false)):(i18n("显示", "SHOWN", false)) }}</button></td>
                 <td><button class="opt" onclick="adjustMSDisp()">{{ i18n('显示里程碑', 'Show Milestones', false) }}: {{ i18n(MS_DISPLAYS[MS_SETTINGS.indexOf(options.msDisplay)], MS_DISPLAYS_I18N[MS_SETTINGS.indexOf(options.msDisplay)], false)}}</button></td>
-				<td><button class="opt" onclick="toggleOpt('shitStandart')">Shit standart: {{ options.cursive?(i18n("已开启", "ON", false)):(i18n("已关闭", "OFF", false)) }}<br><h6 style="color: #f00">WARNING: You might get confused!</h6></button></td>
+				<td><button class="opt" onclick="toggleOpt('shitStandart')">Shit standart: {{ options.shitStandart?(i18n("已开启", "ON", false)):(i18n("已关闭", "OFF", false)) }}<br><h6 style="color: #f00">WARNING: You might get confused!</h6></button></td>
 			</tr> <br>
 			<tr>
 				<td><h1>{{modInfo.internationalizationMod?(i18n('语言', 'language', false)):""}}&nbsp;&nbsp;&nbsp;</h1></td>
