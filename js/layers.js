@@ -40,7 +40,8 @@ addLayer("r", {
     exponent: 0.6, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-		mult = mult.mul(temp.rank.effect[1])
+		mult = mult.mul(temp.tier.effect[1])
+		mult = mult.mul(temp.tetr.effect[1])
 		if (hasUpgrade(this.layer,14)) mult = mult.mul(upgradeEffect(this.layer, 14))
 		if (hasUpgrade(this.layer,21)) mult = mult.mul(upgradeEffect(this.layer, 21))
 		if (hasUpgrade("reb",11)) mult = mult.mul(1.5)
