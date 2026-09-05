@@ -462,7 +462,7 @@ addLayer("rank", {
     exponent: 0.8, // Prestige currency exponent
 	effect() {
 		let pts = player[this.layer].points
-		let eff = new Decimal(1.15).pow(pts.pow(0.8))
+		let eff = new Decimal(1.5).pow(pts.pow(0.8))
 		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
 		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
 		return eff
