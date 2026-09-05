@@ -178,7 +178,7 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === this.layer) layerDataReset("r")
+        if (resettingLayer === "reb") layerDataReset("r")
     },
     upgrades: {
         11: {
@@ -425,7 +425,7 @@ addLayer("tier", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === this.layer) layerDataReset("rank")
+        if (resettingLayer === "tier") layerDataReset("rank")
     },
 	canBuyMax() {return hasUpgrade("reb",22)},
     upgrades: {
@@ -540,7 +540,7 @@ addLayer("tetr", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === this.layer) layerDataReset("tier")
+        if (resettingLayer === "tetr") layerDataReset("tier")
     },
     upgrades: {
         11: {
