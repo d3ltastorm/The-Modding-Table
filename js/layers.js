@@ -76,7 +76,7 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.pow(0.5).div(4)) // sqrt(x)/2
+				mult = mult.add(player[this.layer].points.log10().pow(1.5).div(5)) // (log10(x+1)^1.5)/5
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -142,6 +142,7 @@ addLayer("r", {
             titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
             cost:function(){return new Decimal("500")},
             unlocked(){return hasUpgrade(this.layer,22)}
         },
