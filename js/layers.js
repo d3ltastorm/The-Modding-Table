@@ -368,7 +368,7 @@ addLayer("pres", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player.reset.points.add(1).log10().pow(1.5).div(16))
+				mult = mult.add(player.r.points.add(1).log10().pow(1.5).div(16))
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -392,7 +392,7 @@ addLayer("pres", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player.reset.points.add(1).log10().div(16))
+				mult = mult.add(player.r.points.add(1).log10().div(16))
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
