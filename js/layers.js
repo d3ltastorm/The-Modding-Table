@@ -54,8 +54,9 @@ addLayer("r", {
         return hasUpgrade("reb", 22)
     },
 	doReset(resettingLayer) {
+		let keep = [];
         if (resettingLayer === "reb"
-		   && resettingLayer === "pres") layerDataReset("r")
+		   && resettingLayer === "pres") layerDataReset("r", keep)
     },
     upgrades: {
         11: {
@@ -193,7 +194,8 @@ addLayer("reb", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === "pres") layerDataReset("reb")
+		let keep = [];
+        if (resettingLayer === "pres") layerDataReset("reb", keep)
     },
     upgrades: {
         11: {
@@ -311,8 +313,9 @@ addLayer("pres", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
+		let keep = [];
         if (resettingLayer !== "pres"
-			&& resettingLayer !== "tetr") layerDataReset("pres")
+			&& resettingLayer !== "tetr") layerDataReset("pres", keep)
     },
     upgrades: {
         11: {
@@ -482,8 +485,9 @@ addLayer("rank", {
     },
 	canBuyMax() {return hasUpgrade("reb",12)},
 	doReset(resettingLayer) {
+		let keep = [];
         if (resettingLayer === "tier"
-		   && resettingLayer === "tetr") layerDataReset("rank")
+		   && resettingLayer === "tetr") layerDataReset("rank", keep)
     },
     resetsNothing() {
         return hasUpgrade("reb",14)
@@ -593,7 +597,8 @@ addLayer("tier", {
         return new Decimal(1)
     },
 	doReset(resettingLayer) {
-        if (resettingLayer === "tetr") layerDataReset("tier")
+		let keep = [];
+        if (resettingLayer === "tetr") layerDataReset("tier", keep)
     },
 	canBuyMax() {return hasUpgrade("pres",13)},
     resetsNothing() {
