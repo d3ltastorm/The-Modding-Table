@@ -40,8 +40,8 @@ addLayer("r", {
     exponent: 0.6, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+		if (hasUpgrade(this.layer,14)) mult = mult.mul(upgradeEffect(this.layer, 14))
 		if (hasUpgrade(this.layer,21)) mult = mult.mul(upgradeEffect(this.layer, 21))
-		if (hasUpgrade(this.layer,22)) mult = mult.mul(upgradeEffect(this.layer, 22))
 		if (hasUpgrade("reb",11)) mult = mult.mul(1.5)
         return mult
     },
@@ -99,7 +99,7 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().sqrt().div(10)) // sqrt(log10(x+1))/4
+				mult = mult.add(player[this.layer].points.add(1).log10().sqrt().div(10)) // sqrt(log10(x+1))/10
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -261,7 +261,7 @@ addLayer("reb", {
        "blank",
        "upgrades"
     ],
-    layerShown(){return player.points.gte(1_000) || hasAchievement("ach",32)},
+    layerShown(){return true},
 })
 
 addLayer("2layer", {
@@ -321,12 +321,13 @@ addLayer("rank", {
         mult = new Decimal(1)
 		if (hasUpgrade("tier",13)) mult = mult.div(upgradeEffect("tier", 13))
 		if (hasUpgrade("tetr",13)) mult = mult.div(1.1)
+		if (hasUpgrade("tier",21)) mult = mult.div(upgradeEffect("tetr", 21))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-	canBuyMax() {return hasUpgrade("tier",22) || hasAchievement("ach",23)},
+	canBuyMax() {return hasUpgrade("reb",12)},
     upgrades: {
         11: {
             title: "Multiplier IV",
@@ -426,6 +427,7 @@ addLayer("tier", {
 	doReset(resettingLayer) {
         if (resettingLayer === this.layer) layerDataReset("rank")
     },
+	canBuyMax() {return hasUpgrade("reb",22)},
     upgrades: {
         11: {
             title: "Booster I",
