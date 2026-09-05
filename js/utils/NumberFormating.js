@@ -45,7 +45,15 @@ function format(decimal, precision = 2, small, forceShitStandart) {
     decimal = new Decimal(decimal)
     forceShitStandart = forceShitStandart || options.shitStandart
     if (forceShitStandart
-       && number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) { return formatShitStandart(decimal) }
+       && decimal.lt(new Decimal(10).pow(
+           new Decimal(10).pow(
+               new Decimal(4).mul(
+                   new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))
+               ).mul(3)
+           )
+        )) { 
+        return formatShitStandart(decimal)
+    }
     if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
         player.hasNaN = true;
         return "NaN"
