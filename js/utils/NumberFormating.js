@@ -196,11 +196,11 @@ function formatShitStandart(number) {
         s = shitStandart(number.log(1000).sub(1).floor())
     } else {
         if (number.gte("eeee1000")) {
-            var slog = decimal.slog()
+            var slog = number.slog()
             if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
             else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
         }
-        return exponentialFormat(decimal, 0, false)
+        return exponentialFormat(number, 0, false)
     };
     return s
 };
@@ -216,11 +216,11 @@ function formatShitStandartWhole(number) {
         s = shitStandart(number.log(1000).sub(1).floor())
     } else {
         if (number.gte("eeee1000")) {
-            var slog = decimal.slog()
+            var slog = number.slog()
             if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
             else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
         }
-        return exponentialFormat(decimal, 0, false)
+        return exponentialFormat(number, 0, false)
     };
     return s
 };
