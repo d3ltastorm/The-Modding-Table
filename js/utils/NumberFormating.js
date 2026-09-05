@@ -195,7 +195,7 @@ function formatShitStandart(number) {
     } else if (number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) {
         s = shitStandart(number.log(1000).sub(1).floor())
     } else {
-        if (decimal.gte("eeee1000")) {
+        if (number.gte("eeee1000")) {
             var slog = decimal.slog()
             if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
             else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
@@ -215,7 +215,7 @@ function formatShitStandartWhole(number) {
     } else if (number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) {
         s = shitStandart(number.log(1000).sub(1).floor())
     } else {
-        if (decimal.gte("eeee1000")) {
+        if (number.gte("eeee1000")) {
             var slog = decimal.slog()
             if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
             else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
