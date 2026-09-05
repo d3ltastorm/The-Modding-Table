@@ -316,7 +316,8 @@ addLayer("rank", {
 		let resetMulti = new Decimal(1.1).pow(pts.pow(0.4))
 		if (pts.gte(15)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(25).sqrt().div(5)))
 		if (pts.gte(250)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(250).cbrt().div(5)))
-		return [pointMulti, resetMulti]
+		let eff = [pointMulti, resetMulti]
+		return eff
 	},
 	effectDescription() {
 		return `which are boosting points by x${format(temp[this.layer].effect} and reset points by ${resetMulti}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
