@@ -55,8 +55,8 @@ addLayer("r", {
     },
 	doReset(resettingLayer) {
 		let keep = [];
-        if (resettingLayer === "reb"
-		   && resettingLayer === "pres") layerDataReset("r", keep)
+        if (resettingLayer == "reb"
+		   || resettingLayer == "pres") layerDataReset("r", keep)
     },
     upgrades: {
         11: {
@@ -195,7 +195,7 @@ addLayer("reb", {
     },
 	doReset(resettingLayer) {
 		let keep = [];
-        if (resettingLayer === "pres") layerDataReset("reb", keep)
+        if (resettingLayer == "pres") layerDataReset("reb", keep)
     },
     upgrades: {
         11: {
@@ -314,8 +314,8 @@ addLayer("pres", {
     },
 	doReset(resettingLayer) {
 		let keep = [];
-        if (resettingLayer !== "pres"
-			&& resettingLayer !== "tetr") layerDataReset("pres", keep)
+        if (resettingLayer != "pres"
+			&& resettingLayer != "tetr") layerDataReset("pres", keep)
     },
     upgrades: {
         11: {
@@ -486,8 +486,8 @@ addLayer("rank", {
 	canBuyMax() {return hasUpgrade("reb",12)},
 	doReset(resettingLayer) {
 		let keep = [];
-        if (resettingLayer === "tier"
-		   && resettingLayer === "tetr") layerDataReset("rank", keep)
+        if (resettingLayer == "tier"
+		   || resettingLayer == "tetr") layerDataReset("rank", keep)
     },
     resetsNothing() {
         return hasUpgrade("reb",14)
@@ -598,7 +598,7 @@ addLayer("tier", {
     },
 	doReset(resettingLayer) {
 		let keep = [];
-        if (resettingLayer === "tetr") layerDataReset("tier", keep)
+        if (resettingLayer == "tetr") layerDataReset("tier", keep)
     },
 	canBuyMax() {return hasUpgrade("pres",13)},
     resetsNothing() {
