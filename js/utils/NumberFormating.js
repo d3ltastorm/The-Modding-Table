@@ -74,7 +74,7 @@ function format(decimal, precision = 2, small, forceShitStandart) {
 
 }
 
-function formatWhole(decimal) {
+function formatWhole(decimal, forceShitStandart) {
     decimal = new Decimal(decimal)
     forceShitStandart = forceShitStandart || options.shitStandart
     if (forceShitStandart) return formatShitStandartWhole(decimal)
