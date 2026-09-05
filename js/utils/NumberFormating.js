@@ -102,33 +102,60 @@ function shitStandart(illion) {
         if (ill.gte(thr)) return `${a[4].split(" ")[ill.div(1000).floor().toNumber()]}${a[1].split(" ")[ill.mod(10).toNumber()]}${a[2].split(" ")[ill.div(10).floor().mod(10).toNumber()]}${a[3].split(" ")[ill.div(100).floor().mod(10).toNumber()]}`
         else return ""
     }
-    function Tier2(ill) {
-        if (ill.eq(0)) return "";
-        let st = [];
-        let e = ill.log(2).floor().toNumber();
-        for (let i = (e>10?e-10:0); i <= e; i++) {
-            if (ill.div(new Decimal(2).pow(i)).floor().mod(2).eq(1)) {
-                st.push(`${a[5].split(" ")[(i+1)%10]}${a[6].split(" ")[Math.floor((i+1)/10)%10]}${a[7].split(" ")[Math.floor((i+1)/100)%10]}${a[8].split(" ")[Math.floor((i+1)/1000)]}`);
-            }
-        };
-        return st.join("-")
+    function getTier2Bin(i) {
+        return `${a[5].split(" ")[i.mod(10).toNumber()]}${a[6].split(" ")[i.div(10).floor().mod(10).toNumber()]}${a[7].split(" ")[i.div(100).floor().mod(10).toNumber()]}${a[8].split(" ")[i.div(1000).floor().toNumber()]}`
     }
     function Tier3(ill) {
         if (ill.eq(0)) return "";
         let st = [];
-        let e = ill.log(2).floor().toNumber();
-        for (let i = (e>10?e-10:0); i <= e; i++) {
-            if (ill.div(new Decimal(2).pow(i)).floor().mod(2).eq(1)) {
+        let e = ill.log(2).floor();
+        for (let i = 0; i <= 10; i++) {
+            let j = new Decimal(i).add(e.gte(10)?e.sub(10):0);
+            if (ill.div(new Decimal(2).pow(j)).floor().mod(2).eq(1)) {
                 st.push(`${a[9].split(" ")[(i+1)%10]}${a[10].split(" ")[Math.floor((i+1)/10)%10]}${a[11].split(" ")[Math.floor((i+1)/100)%10]}${a[12].split(" ")[Math.floor((i+1)/1000)]}`);
             }
         };
         return st.join("=")
     }
-    function g(number) {
-        return illion.div(new Decimal(10000).pow(number)).floor().mod(10000)
+    function Tier3Sep(ill) {
+        if (ill.eq(0)) return "";
+        let st = [];
+        let e = ill.log10().div(4).floor();
+        let tier3ill = e;
+        if (e.eq(0)) {
+            return getTier2Bin(ill)
+        }
+        if (e.gte(1024)) {
+            return Tier3(tier3ill)
+        };
+        for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
+            if (i === 0) {
+                if (!g(tier3ill,ill).eq(0)) st.push(`${g(tier3ill,ill).gte(2)?getTier2Bin(g(tier3ill,ill)):""}${Tier3(tier3ill)}`)
+            } else {
+                if (!g(tier3ill,ill).eq(0)) st.push(`${getTier2Bin(g(tier3ill,ill))}${Tier3(tier3ill)}`)
+            }
+            tier3ill = tier3ill.sub(1)
+        };
+        return st.join("-")
     }
-    function h(number) {
-        return illion.log10().div(4).log(2).div(new Decimal(10000).pow(number)).floor().mod(10000)
+    
+    function Tier2(ill) {
+        if (ill.eq(0)) return "";
+        let st = [];
+        let e = ill.log(2).floor();
+        if (e.gte(1_0000)) {
+            return Tier3Sep(e)
+        }
+        for (let i = 0; i <= 10; i++) {
+            let j = new Decimal(i).add(e.gte(10)?e.sub(10):0);
+            if (ill.div(new Decimal(2).pow(j)).floor().mod(2).eq(1)) {
+                st.push(Tier3Sep(j.add(1)));
+            }
+        };
+        return st.join("-")
+    }
+    function g(number,i=illion) {
+        return i.div(new Decimal(10000).pow(number)).floor().mod(10000)
     }
     if (illion.lt(10000)) {
         if (illion.lt(10)) {
@@ -141,7 +168,7 @@ function shitStandart(illion) {
         let tier2ill = e;
         let s = "";
         if (e.gte(1024)) {
-            return Tier2(e)
+            return Tier3Sep(e)
         };
         for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
             if (i === 0) {
@@ -152,22 +179,6 @@ function shitStandart(illion) {
             tier2ill = tier2ill.sub(1)
         };
         return s
-    } else {
-        let e = illion.log10().div(4).log(2).log10().div(4).floor();
-        let tier3ill = e;
-        let s = [];
-        if (e.gte(1024)) {
-            return Tier3(e)
-        };
-        for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
-            if (i === 0) {
-                if (!h(tier3ill).eq(0)) s.push(`${h(tier3ill).gte(2)?Tier2(h(tier3ill)):""}${Tier3(tier3ill)}`)
-            } else {
-                if (!h(tier3ill).eq(0)) s.push(`${Tier2(h(tier3ill))}${Tier3(tier3ill)}`)
-            }
-            tier3ill = tier3ill.sub(1)
-        };
-        return s.join("-")
     }
 };
 function formatShitStandart(number) {
@@ -178,8 +189,15 @@ function formatShitStandart(number) {
         s = number.toStringWithDecimalPlaces(2)
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
         s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
-    } else {
+    } else if (number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) {
         s = shitStandart(number.log(1000).sub(1).floor())
+    } else {
+        if (decimal.gte("eeee1000")) {
+            var slog = decimal.slog()
+            if (slog.gte(1e6)) return "F" + format(slog.floor())
+            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
+        }
+        return exponentialFormat(decimal, 0, false)
     };
     return s
 };
