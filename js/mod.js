@@ -98,8 +98,7 @@ function getPointGen() {
 	if (hasUpgrade("tetr",14)) gain = gain.mul(2)
 	if (hasUpgrade("r",11)) gain = gain.mul(2)
 	if (hasUpgrade("r",12)) gain = gain.mul(upgradeEffect("r", 12))
-	if (hasUpgrade("r",13)) gain = gain.div(1.25)
-	if (hasUpgrade("r",14)) gain = gain.mul(upgradeEffect("r", 14))
+	if (hasUpgrade("r",13)) gain = gain.mul(upgradeEffect("r", 13))
 	return gain
 }
 
