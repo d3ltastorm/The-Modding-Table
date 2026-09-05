@@ -173,7 +173,7 @@ function formatShitStandart(number) {
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
         s = `${formatWhole(number.div(new Decimal(1000).pow(number.log(1000).floor())))}${shitStandart(number.log(1000).sub(1).floor())}`
     } else {
-        s = shitStandart3(number.log(1000).sub(1).floor())
+        s = shitStandart(number.log(1000).sub(1).floor())
     };
     return s
 };
