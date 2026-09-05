@@ -16,7 +16,7 @@ function getStartOptions() {
 		tooltipForcing: true,
 		ch: undefined,
 		mouse: true,
-		cursive: false,
+		shitStandart: false,
 	}
 }
 
