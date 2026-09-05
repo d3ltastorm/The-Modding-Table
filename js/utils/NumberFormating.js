@@ -105,6 +105,9 @@ function shitStandart(illion) {
     function getTier2Bin(i) {
         return `${a[5].split(" ")[i.mod(10).toNumber()]}${a[6].split(" ")[i.div(10).floor().mod(10).toNumber()]}${a[7].split(" ")[i.div(100).floor().mod(10).toNumber()]}${a[8].split(" ")[i.div(1000).floor().toNumber()]}`
     }
+    function getTier3Bin(i) {
+        return `${a[9].split(" ")[i.mod(10).toNumber()]}${a[10].split(" ")[i.div(10).floor().mod(10).toNumber()]}${a[11].split(" ")[i.div(100).floor().mod(10).toNumber()]}${a[12].split(" ")[i.div(1000).floor().toNumber()]}`
+    }
     function Tier3(ill) {
         if (ill.eq(0)) return "";
         let st = [];
@@ -112,7 +115,7 @@ function shitStandart(illion) {
         for (let i = 0; i <= 10; i++) {
             let j = new Decimal(i).add(e.gte(10)?e.sub(10):0);
             if (ill.div(new Decimal(2).pow(j)).floor().mod(2).eq(1)) {
-                st.push(`${a[9].split(" ")[(i+1)%10]}${a[10].split(" ")[Math.floor((i+1)/10)%10]}${a[11].split(" ")[Math.floor((i+1)/100)%10]}${a[12].split(" ")[Math.floor((i+1)/1000)]}`);
+                st.push(getTier3Bin(j.add(1)));
             }
         };
         return st.join("=")
@@ -194,8 +197,8 @@ function formatShitStandart(number) {
     } else {
         if (decimal.gte("eeee1000")) {
             var slog = decimal.slog()
-            if (slog.gte(1e6)) return "F" + format(slog.floor())
-            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
+            if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
+            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
         }
         return exponentialFormat(decimal, 0, false)
     };
@@ -209,8 +212,15 @@ function formatShitStandartWhole(number) {
         s = number.floor()
     } else if (number.lt(new Decimal(10).pow(3_0000_0003))) {
         s = `${number.div(new Decimal(1000).pow(number.log(1000).floor())).toStringWithDecimalPlaces(2)}${shitStandart(number.log(1000).sub(1).floor())}`
-    } else {
+    } else if (number.lt(new Decimal(10).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(new Decimal(10).pow(new Decimal(4).mul(new Decimal(2).pow(10000)))))).mul(3)))) {
         s = shitStandart(number.log(1000).sub(1).floor())
+    } else {
+        if (decimal.gte("eeee1000")) {
+            var slog = decimal.slog()
+            if (slog.gte(1e6)) return "F" + formatShitStandartWhole(slog.floor())
+            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + formatShitStandartWhole(slog.floor(), 0)
+        }
+        return exponentialFormat(decimal, 0, false)
     };
     return s
 };
