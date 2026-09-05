@@ -129,12 +129,21 @@ addLayer("r", {
             unlocked(){return hasUpgrade(this.layer,14)}
         },
         22: {
+            title: "Multiplier III",
+            titleI18N: "Multiplier III", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply points by 3",
+            descriptionI18N: "Multiply points by 3", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("100")},
+            unlocked(){return hasUpgrade(this.layer,21)}
+        },
+        23: {
             title: "Rebirth",
             titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             cost:function(){return new Decimal("500")},
-            unlocked(){return hasUpgrade(this.layer,21)}
+            unlocked(){return hasUpgrade(this.layer,22)}
         },
     },
     hotkeys: [
@@ -192,8 +201,8 @@ addLayer("reb", {
     },
     upgrades: {
         11: {
-            title: "Multiplier III",
-            titleI18N: "Multiplier III", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            title: "Multiplier IV",
+            titleI18N: "Multiplier IV", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply reset points by 1.5",
             descriptionI18N: "Multiply reset points by 1.5", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
@@ -261,9 +270,145 @@ addLayer("reb", {
             unlocked(){return hasUpgrade(this.layer,22)}
         },
     },
-    hotkeys: [
-        {key: "r", description: "R: Reset", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    tabFormat: [
+       ["display-text", function() { return getPointsDisplay() }],
+       "main-display",
+       "prestige-button",
+       "blank",
+       "upgrades"
     ],
+    layerShown(){return true},
+})
+addLayer("pres", {
+    name: "pres", // This is optional, only used in a few places, If absent it just uses the layer id
+    symbol: "Prestige", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbolI18N: "Prestige", // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#1e81c2",
+    requires: new Decimal(100_000), // Can be a function that takes requirement increases into account
+    resource: "prestige points", // Name of prestige currency
+    resourceI18N: "prestige points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
+    baseResource: "rebirth points", // Name of resource prestige is based on
+    baseResourceI18N: "rebirth points", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
+    baseAmount() {return player.reb.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+	effect() {
+		return player[this.layer].points.add(1).sqrt()
+	},
+	effectDescription() {
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
+	},
+	effectDescriptionI18N() {
+		return `which are boosting points by x${format(temp[this.layer].effect)}`
+	},
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+	doReset(resettingLayer) {
+        if (resettingLayer !== "pres"
+			&& resettingLayer !== "rank"
+			&& resettingLayer !== "tier"
+			&& resettingLayer !== "tetr") layerDataReset("pres")
+    },
+    upgrades: {
+        11: {
+            title: "Tier Synergy I",
+            titleI18N: "Tier Synergy I", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply reset points based on tiers",
+            descriptionI18N: "Multiply reset points based on tiers", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.tier.points.sqrt().div(4))
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("1")},
+            unlocked(){return true}
+        },
+        12: {
+            title: "Rank Synergy II",
+            titleI18N: "Rank Synergy II", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply rebirth points based on ranks",
+            descriptionI18N: "Multiply rebirth points based on ranks", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.rank.points.cbrt().div(8))
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("2")},
+            unlocked(){return hasUpgrade(this.layer,11)}
+        },
+       	13: {
+            title: "Maximized II",
+            titleI18N: "Maximized II", 
+            description: "Buy max Tiers.",
+            descriptionI18N: "Buy max Tiers.", 
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("8")},
+            unlocked(){return hasUpgrade(this.layer,12)}
+        },
+       	14: {
+            title: "Reset Booster II",
+            titleI18N: "Reset Booster II", 
+            description: "Multiply ranks based on reset points.",
+            descriptionI18N: "Multiply ranks based on reset points.", 
+            style: {"border-radius": "0"},
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.reset.points.add(1).log10().pow(1.5).div(16))
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("25")},
+            unlocked(){return hasUpgrade(this.layer,13)}
+        },
+       	21: {
+            title: "No Resets II",
+            titleI18N: "No Resets II", 
+            description: "Tiers do not reset anything.",
+            descriptionI18N: "Tiers do not reset anything.", 
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("100")},
+            unlocked(){return hasUpgrade(this.layer,14)}
+        },
+       	22: {
+            title: "Reset Booster III",
+            titleI18N: "Reset Booster III", 
+            description: "Multiply rebirth points based on reset points.",
+            descriptionI18N: "Multiply rebirth points based on reset points.", 
+            style: {"border-radius": "0"},
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.reset.points.add(1).log10().div(16))
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("500")},
+            unlocked(){return hasUpgrade(this.layer,21)}
+        },
+       	23: {
+            title: "Automation II",
+            titleI18N: "Automation II", 
+            description: "Automate tiers.",
+            descriptionI18N: "Automate tiers.", 
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("2500")},
+            unlocked(){return hasUpgrade(this.layer,22)}
+        },
+    },
     tabFormat: [
        ["display-text", function() { return getPointsDisplay() }],
        "main-display",
@@ -313,29 +458,29 @@ addLayer("rank", {
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
 	base: 2,
-    exponent: 0.7, // Prestige currency exponent
+    exponent: 0.8, // Prestige currency exponent
 	effect() {
 		let pts = player[this.layer].points
-		let pointMulti = new Decimal(1.6).pow(pts.pow(0.7))
-		if (pts.gte(15)) pointMulti = pointMulti.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
-		if (pts.gte(250)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
-		let resetMulti = new Decimal(1.1).pow(pts.pow(0.4))
-		if (pts.gte(15)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(25).sqrt().div(5)))
-		if (pts.gte(250)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(250).cbrt().div(5)))
-		let eff = [pointMulti, resetMulti]
+		let eff = new Decimal(1.15).pow(pts.pow(0.8))
+		if (pts.gte(15)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(3).div(5)))
+		if (pts.gte(250)) eff = eff.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by ${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by ${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}}`
+		return `which are boosting points by x${format(temp[this.layer].effect)}${player[this.layer].points.gte(15)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-		if (hasUpgrade("tier",13)) mult = mult.div(upgradeEffect("tier", 13))
-		if (hasUpgrade("tetr",13)) mult = mult.div(1.1)
-		if (hasUpgrade("tier",21)) mult = mult.div(upgradeEffect("tetr", 21))
+        return mult
+    },
+    directMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier", 13))
+		if (hasUpgrade("tetr",13)) mult = mult.mul(1.1)
+		if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tetr", 21))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -345,10 +490,16 @@ addLayer("rank", {
 	doReset(resettingLayer) {
         if (resettingLayer !== "rank") layerDataReset("rank")
     },
+    resetsNothing() {
+        return hasUpgrade("reb",14)
+    },
+    autoPrestige() {
+        return hasUpgrade("reb",21)
+    },
     upgrades: {
         11: {
-            title: "Multiplier IV",
-            titleI18N: "Multiplier IV", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            title: "Multiplier V",
+            titleI18N: "Multiplier V", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply points by 2",
             descriptionI18N: "Multiply points by 2", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
@@ -356,8 +507,8 @@ addLayer("rank", {
             unlocked(){return true}
         },
         12: {
-            title: "Multiplier V",
-            titleI18N: "Multiplier V", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            title: "Multiplier VI",
+            titleI18N: "Multiplier VI", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Add +1 to base effect of Multiplier I",
             descriptionI18N: "Add +1 to base effect of Multiplier I", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
@@ -424,15 +575,20 @@ addLayer("tier", {
     exponent: 0.75, // Prestige currency exponent
 	effect() {
 		let pts = player[this.layer].points
-		let eff = new Decimal(1.15).pow(pts.pow(0.8))
-		if (pts.gte(20)) eff = eff.div(new Decimal(1).add(pts.div(15).pow(2).div(5)))
+		let pointMulti = new Decimal(1.3).pow(pts.pow(0.7))
+		if (pts.gte(20)) pointMulti = pointMulti.div(new Decimal(1).add(pts.div(20).pow(3).div(5)))
+		if (pts.gte(250)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
+		let resetMulti = new Decimal(1.2).pow(pts.pow(0.4))
+		if (pts.gte(20)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(20).sqrt().div(5)))
+		if (pts.gte(250)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(250).cbrt().div(5)))
+		let eff = [pointMulti, resetMulti]
 		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
+		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by x${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(20)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)+(player[this.layer].points.gte(20)?' <span style="font-size: 12px">(softcapped)</span>':"")}`
+		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by x${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(20)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -444,7 +600,13 @@ addLayer("tier", {
 	doReset(resettingLayer) {
         if (resettingLayer !== "tier") layerDataReset("tier")
     },
-	canBuyMax() {return hasUpgrade("reb",22)},
+	canBuyMax() {return hasUpgrade("pres",13)},
+    resetsNothing() {
+        return hasUpgrade("pres",21)
+    },
+    autoPrestige() {
+        return hasUpgrade("pres",23)
+    },
     upgrades: {
         11: {
             title: "Booster I",
@@ -462,8 +624,8 @@ addLayer("tier", {
             unlocked(){return true}
         },
         12: {
-            title: "Multiplier VI",
-            titleI18N: "Multiplier VI", 
+            title: "Multiplier VII",
+            titleI18N: "Multiplier VII", 
             description: "Multiply points by 2.5.",
             descriptionI18N: "Multiply points by 2.5.",
             style: {"border-radius": "0"},
@@ -486,8 +648,8 @@ addLayer("tier", {
             unlocked(){return hasUpgrade(this.layer,12)}
         },
         14: {
-            title: "Multiplier VII",
-            titleI18N: "Multiplier VII", 
+            title: "Multiplier VIII",
+            titleI18N: "Multiplier VIII", 
             description: "Multiply points based on tiers",
             descriptionI18N: "Multiply points based on tiers", 
             style: {"border-radius": "0"},
@@ -541,13 +703,21 @@ addLayer("tetr", {
 	base: 1.1,
     exponent: 0.85, // Prestige currency exponent
 	effect() {
-		return new Decimal(1.15).pow(player[this.layer].points.pow(0.7))
+		let pts = player[this.layer].points
+		let pointMulti = new Decimal(1.5).pow(pts.pow(0.7))
+		if (pts.gte(30)) pointMulti = pointMulti.div(new Decimal(1).add(pts.div(20).pow(3).div(5)))
+		if (pts.gte(250)) pointMulti = pointMulti.root(new Decimal(1).add(pts.div(250).sqrt().div(5)))
+		let resetMulti = new Decimal(1.3).pow(pts.pow(0.4))
+		if (pts.gte(30)) resetMulti = resetMulti.div(new Decimal(1).add(pts.div(30).sqrt().div(5)))
+		if (pts.gte(250)) resetMulti = resetMulti.root(new Decimal(1).add(pts.div(250).cbrt().div(5)))
+		let eff = [pointMulti, resetMulti]
+		return eff
 	},
 	effectDescription() {
-		return `which are boosting points by x${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by x${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(30)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}`
 	},
 	effectDescriptionI18N() {
-		return `which are boosting points by x${format(temp[this.layer].effect)}`
+		return `which are boosting points by x${format(temp[this.layer].effect[0])} and reset points by x${format(temp[this.layer].effect[1])}${player[this.layer].points.gte(30)?` <span style="font-size: 12px">(softcapped${player[this.layer].points.gte(250)?"<sup>2</sup>":""})</span>`:""}`
 	},
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -594,8 +764,8 @@ addLayer("tetr", {
             unlocked(){return hasUpgrade(this.layer,12)}
         },
         14: {
-            title: "Multiplier IV",
-            titleI18N: "Multiplier IV", 
+            title: "Multiplier IX",
+            titleI18N: "Multiplier IX", 
             description: "Multiply points by 2.",
             descriptionI18N: "Multiply points by 2.",
             style: {"border-radius": "0 15px 15px 0"},
