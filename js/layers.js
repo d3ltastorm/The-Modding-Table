@@ -805,7 +805,7 @@ addLayer("tier", {
     baseResourceI18N: "ranks", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
     baseAmount() {return player.rank.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-	base: 1.35,
+	base: 1.5,
     exponent: 0.75, // Prestige currency exponent
 	effect() {
 		let pts = player[this.layer].points
