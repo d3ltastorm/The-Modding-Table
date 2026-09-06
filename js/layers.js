@@ -488,6 +488,7 @@ addLayer("rank", {
 		if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier", 13))
 		if (hasUpgrade("tetr",13)) mult = mult.mul(1.1)
 		if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tetr", 21))
+		if (hasUpgrade("pres",15)) mult = mult.mul(upgradeEffect("pres", 15))
 		mult = mult.mul(temp.pent.effect[2])
         return mult
     },
