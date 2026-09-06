@@ -94,6 +94,7 @@ addLayer("ach", {
         unlocked: true,
     }},
     color: "#e4e4b4",
+	doReset() {},
     achievements: {
         11: {
             name: "First Rank",
