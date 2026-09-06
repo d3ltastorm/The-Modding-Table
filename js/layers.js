@@ -316,8 +316,7 @@ addLayer("pres", {
     },
 	doReset(resettingLayer) {
 		let keep = [];
-        if (resettingLayer != "pres"
-			&& resettingLayer != "tetr") layerDataReset("pres", keep)
+        layerDataReset("pres", keep)
     },
     upgrades: {
         11: {
@@ -489,6 +488,7 @@ addLayer("rank", {
 	canBuyMax() {return hasUpgrade("reb",12)},
 	doReset(resettingLayer) {
 		let keep = [];
+		if (hasMilestone("pent",10)) keep.push("upgrades");
         if (resettingLayer == "tier"
 		   || resettingLayer == "tetr") layerDataReset("rank", keep)
     },
@@ -606,6 +606,7 @@ addLayer("tier", {
     },
 	doReset(resettingLayer) {
 		let keep = [];
+		if (hasMilestone("pent",10)) keep.push("upgrades");
         if (resettingLayer == "tetr") layerDataReset("tier", keep)
     },
 	canBuyMax() {return hasUpgrade("pres",13)},
@@ -863,7 +864,7 @@ addLayer("pent", {
         return new Decimal(1)
     },
     milestones: {
-        0: {
+        10: {
             requirementDescription() { return `Pent ${formatWhole(3)}` },
             requirementDescriptionI18N() { return `Pent ${formatWhole(3)}` },
             effectDescription: "Keep your Rank and Tier upgrades on reset.",
