@@ -45,6 +45,7 @@ addLayer("r", {
 		if (hasUpgrade(this.layer,14)) mult = mult.mul(upgradeEffect(this.layer, 14))
 		if (hasUpgrade(this.layer,21)) mult = mult.mul(upgradeEffect(this.layer, 21))
 		if (hasUpgrade("reb",11)) mult = mult.mul(1.5)
+		mult = mult.mul(temp.pent.effect[1])
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -479,6 +480,7 @@ addLayer("rank", {
 		if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier", 13))
 		if (hasUpgrade("tetr",13)) mult = mult.mul(1.1)
 		if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tetr", 21))
+		mult = mult.mul(temp.pent.effect[2])
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -594,6 +596,11 @@ addLayer("tier", {
         mult = new Decimal(1)
         return mult
     },
+	directMult() {
+		mult = new Decimal(1)
+		mult = mult.mul(temp.pent.effect[3])
+		return mult
+	},
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
