@@ -121,8 +121,8 @@ function shitStandart(illion) {
         if (ill.eq(0)) return "";
         let st = [];
         let e = ill.log(2).floor();
-        for (let i = 0; i <= 10; i++) {
-            let j = new Decimal(i).add(e.gte(10)?e.sub(10):0);
+        for (let i = 0; i <= 25; i++) {
+            let j = new Decimal(i).add(e.gte(25)?e.sub(25):0);
             if (ill.div(new Decimal(2).pow(j)).floor().mod(2).eq(1)) {
                 st.push(getTier3Bin(j.add(1)));
             }
@@ -131,35 +131,35 @@ function shitStandart(illion) {
     }
     function Tier3Sep(ill) {
         if (ill.eq(0)) return "";
-        let st = [];
+        let st = "";
         let e = ill.log10().div(4).floor();
         let tier3ill = e;
         if (e.eq(0)) {
             return getTier2Bin(ill)
         }
-        if (e.gte(1024)) {
+        if (e.gte(33554432)) {
             return Tier3(tier3ill)
         };
         for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
             if (i === 0) {
-                if (!g(tier3ill,ill).eq(0)) st.push(`${g(tier3ill,ill).gte(2)?getTier2Bin(g(tier3ill,ill)):""}${Tier3(tier3ill)}`)
+                if (!g(tier3ill,ill).eq(0)) st+=`${g(tier3ill,ill).gte(2)?getTier2Bin(g(tier3ill,ill)):""}${Tier3(tier3ill)}`
             } else {
-                if (!g(tier3ill,ill).eq(0)) st.push(`${getTier2Bin(g(tier3ill,ill))}${Tier3(tier3ill)}`)
+                if (!g(tier3ill,ill).eq(0)) st+=`${getTier2Bin(g(tier3ill,ill))}${Tier3(tier3ill)}`
             }
             tier3ill = tier3ill.sub(1)
         };
-        return st.join("-")
+        return st
     }
     
     function Tier2(ill) {
         if (ill.eq(0)) return "";
         let st = [];
         let e = ill.log(2).floor();
-        if (e.gte(1_0000)) {
+        if (e.gte(33554432)) {
             return Tier3Sep(e)
         }
-        for (let i = 0; i <= 10; i++) {
-            let j = new Decimal(i).add(e.gte(10)?e.sub(10):0);
+        for (let i = 0; i <= 25; i++) {
+            let j = new Decimal(i).add(e.gte(1_0000)?e.sub(3):e.gte(25)?e.sub(25):0);
             if (ill.div(new Decimal(2).pow(j)).floor().mod(2).eq(1)) {
                 st.push(Tier3Sep(j.add(1)));
             }
@@ -179,17 +179,21 @@ function shitStandart(illion) {
         let e = illion.log10().div(4).floor();
         let tier2ill = e;
         let s = "";
-        if (e.gte(1024)) {
-            return Tier3Sep(e)
-        };
-        for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
-            if (i === 0) {
-                if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill), 2)}${Tier2(tier2ill)}`
-            } else {
-                if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill))}${Tier2(tier2ill)}`
+        if (e.gte(33554432)) {
+            s = Tier3Sep(e)
+        } else {
+            for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
+                if (i === 0) {
+                    if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill), 2)}${Tier2(tier2ill)}`
+                } else {
+                    if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill))}${Tier2(tier2ill)}`
+                }
+                tier2ill = tier2ill.sub(1)
             }
-            tier2ill = tier2ill.sub(1)
         };
+        if (s.length > 35) {
+            s = s.slice(0,32); s += "..."
+        }
         return s
     }
 };
