@@ -355,10 +355,19 @@ addLayer("pres", {
             description: "Buy max Tiers.",
             descriptionI18N: "Buy max Tiers.", 
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("8")},
+            cost:function(){return new Decimal("25")},
             unlocked(){return hasUpgrade(this.layer,12)}
         },
        	14: {
+            title: "Powers I",
+            titleI18N: "Powers I", 
+            description: "^1.05 points.",
+            descriptionI18N: "^1.05 points.", 
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("50")},
+            unlocked(){return hasUpgrade(this.layer,13)}
+        },
+       	15: {
             title: "Reset Booster II",
             titleI18N: "Reset Booster II", 
             description: "Multiply ranks based on reset points.",
@@ -370,8 +379,8 @@ addLayer("pres", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("25")},
-            unlocked(){return hasUpgrade(this.layer,13)}
+            cost:function(){return new Decimal("75")},
+            unlocked(){return hasUpgrade(this.layer,14)}
         },
        	21: {
             title: "No Resets II",
@@ -379,8 +388,8 @@ addLayer("pres", {
             description: "Tiers do not reset anything.",
             descriptionI18N: "Tiers do not reset anything.", 
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("100")},
-            unlocked(){return hasUpgrade(this.layer,14)}
+            cost:function(){return new Decimal("350")},
+            unlocked(){return hasUpgrade(this.layer,15)}
         },
        	22: {
             title: "Reset Booster III",
@@ -394,7 +403,7 @@ addLayer("pres", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("500")},
+            cost:function(){return new Decimal("2500")},
             unlocked(){return hasUpgrade(this.layer,21)}
         },
        	23: {
@@ -403,7 +412,7 @@ addLayer("pres", {
             description: "Automate tiers.",
             descriptionI18N: "Automate tiers.", 
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("2500")},
+            cost:function(){return new Decimal("15000")},
             unlocked(){return hasUpgrade(this.layer,22)}
         },
     },
