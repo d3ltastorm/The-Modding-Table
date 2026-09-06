@@ -486,11 +486,11 @@ addLayer("sr", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().mul(2).pow(4).mul(4)) // (log10(x+1)^4)*4
+				mult = mult.add(player[this.layer].points.add(1).log10().mul(2).pow(5).mul(6)) // (log10(x+1)^5)*6
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("1")},
+            cost:function(){return new Decimal("3")},
             unlocked(){return hasUpgrade(this.layer, 11)}
         },
         13: {
@@ -499,7 +499,7 @@ addLayer("sr", {
             description: "Multiply points by 25 and reset points by 2.",
             descriptionI18N: "Multiply points by 25 and reset points by 2.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("2")},
+            cost:function(){return new Decimal("100")},
             unlocked(){return hasUpgrade(this.layer, 12)}
         },
         14: {
@@ -508,7 +508,7 @@ addLayer("sr", {
             description: "Keep your prestige upgrades on reset.",
             descriptionI18N: "Keep your prestige upgrades on reset.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("4")},
+            cost:function(){return new Decimal("2500")},
             unlocked(){return hasUpgrade(this.layer, 13)}
         },
         15: {
@@ -523,7 +523,7 @@ addLayer("sr", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("35")},
+            cost:function(){return new Decimal("35000")},
             unlocked(){return hasUpgrade(this.layer, 14)}
         },
         21: {
@@ -532,7 +532,7 @@ addLayer("sr", {
             description: "Buy max tetrs.",
             descriptionI18N: "Buy max tetrs.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("500")},
+            cost:function(){return new Decimal("50000000")},
             unlocked(){return hasUpgrade(this.layer, 15)}
         },
         22: {
@@ -541,7 +541,7 @@ addLayer("sr", {
             description: "Automate tetrs.",
             descriptionI18N: "Automate tetrs.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("2500")},
+            cost:function(){return new Decimal("2.5e9")},
             unlocked(){return hasUpgrade(this.layer, 21)}
         },
         23: {
@@ -552,11 +552,11 @@ addLayer("sr", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player.r.points.add(1).log10().add(1).log10().mul(2).pow(2).mul(3)) // ((log10(log10(x+1)+1)*2)^2)*2
+				mult = mult.add(player.r.points.add(1).log10().add(1).log10().mul(2).pow(2).div(10)) // ((log10(log10(x+1)+1)*2)^2)/10
 				return mult
 			}, 
             effectDisplay() { return `^${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("10000")},
+            cost:function(){return new Decimal("1.3e15")},
             unlocked(){return hasUpgrade(this.layer, 22)}
         },
         24: {
@@ -565,7 +565,7 @@ addLayer("sr", {
             description: "Tetrs do not reset anything.",
             descriptionI18N: "Tetrs do not reset anything.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("100000")},
+            cost:function(){return new Decimal("3.5e26")},
             unlocked(){return hasUpgrade(this.layer, 23)}
         },
         25: {
@@ -574,7 +574,7 @@ addLayer("sr", {
             description: "Passively gain rebirth points.",
             descriptionI18N: "Passively gain rebirth points.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("5000000")},
+            cost:function(){return new Decimal("7e45")},
             unlocked(){return hasUpgrade(this.layer, 24)}
         },
         31: {
@@ -583,7 +583,7 @@ addLayer("sr", {
             description: "Keep your rebirth upgrades on reset.",
             descriptionI18N: "Keep your rebirth upgrades on reset.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("100000000")},
+            cost:function(){return new Decimal("5.5e62")},
             unlocked(){return hasUpgrade(this.layer, 25)}
         },
     },
