@@ -99,6 +99,7 @@ function getPointGen() {
 	if (hasUpgrade("r",11)) gain = gain.mul(2)
 	if (hasUpgrade("r",12)) gain = gain.mul(upgradeEffect("r", 12))
 	if (hasUpgrade("r",13)) gain = gain.mul(upgradeEffect("r", 13))
+	if (hasUpgrade("pres",14)) gain = gain.pow(1.05)
 	return gain
 }
 
