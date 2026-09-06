@@ -94,7 +94,7 @@ addLayer("ach", {
         unlocked: true,
         points: new Decimal(0),
     }},
-    color: "#fe0000",
+    color: "#e4e4b4",
     type: "none",
     achievements: {
         11: {
