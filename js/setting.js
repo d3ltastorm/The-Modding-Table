@@ -92,10 +92,8 @@ addLayer("ach", {
     symbolI18N() {return 'Achievements'}, // Second name of symbol for internationalization (i18n) if internationalizationMod is enabled (in mod.js)
     startData() { return {
         unlocked: true,
-        points: new Decimal(0),
     }},
     color: "#e4e4b4",
-    type: "none",
     achievements: {
         11: {
             name: "First Rank",
