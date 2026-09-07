@@ -528,7 +528,7 @@ addLayer("sr", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().add(1).log10().mul(4).pow(2).div(25))
+				mult = mult.add(player[this.layer].points.add(1).log10().add(1).log10())
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
