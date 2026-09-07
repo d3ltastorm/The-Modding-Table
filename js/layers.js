@@ -715,12 +715,12 @@ addLayer("rank", {
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         mult = new Decimal(1)
-		if (hasUpgrade("tier",13)) mult = mult.div(upgradeEffect("tier", 13))
-		if (hasUpgrade("tier",21)) mult = mult.div(upgradeEffect("tetr", 21))
-		if (hasUpgrade("tetr",13)) mult = mult.div(1.1)
-		if (hasUpgrade("r",24)) mult = mult.div(1.1)
-		if (hasUpgrade("pres",15)) mult = mult.div(upgradeEffect("pres", 15))
-		mult = mult.div(temp.pent.effect[2])
+		if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier", 13))
+		if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tetr", 21))
+		if (hasUpgrade("tetr",13)) mult = mult.mul(1.1)
+		if (hasUpgrade("r",24)) mult = mult.mul(1.1)
+		if (hasUpgrade("pres",15)) mult = mult.mul(upgradeEffect("pres", 15))
+		mult = mult.mul(temp.pent.effect[2])
         return mult
     },
 	canBuyMax() {return hasUpgrade("reb",12)},
@@ -837,7 +837,8 @@ addLayer("tier", {
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
 		mult = new Decimal(1)
-		mult = mult.div(temp.pent.effect[3])
+		mult = mult.mul(temp.pent.effect[3])
+		if (hasUpgrade("sr",15)) mult = mult.mul(upgradeEffect("sr",15))
 		return mult
     },
 	doReset(resettingLayer) {
