@@ -528,7 +528,7 @@ addLayer("sr", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().mul(2).pow(2).div(25)) // (log10(x+1)^2)/25
+				mult = mult.add(player[this.layer].points.add(1).log10().add(1).log10().mul(4).pow(2).div(25))
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -713,18 +713,15 @@ addLayer("rank", {
         mult = new Decimal(1)
         return mult
     },
-    directMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-		if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier", 13))
-		if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tetr", 21))
-		if (hasUpgrade("tetr",13)) mult = mult.mul(1.1)
-		if (hasUpgrade("r",24)) mult = mult.mul(1.1)
-		if (hasUpgrade("pres",15)) mult = mult.mul(upgradeEffect("pres", 15))
-		mult = mult.mul(temp.pent.effect[2])
-        return mult
-    },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+        mult = new Decimal(1)
+		if (hasUpgrade("tier",13)) mult = mult.div(upgradeEffect("tier", 13))
+		if (hasUpgrade("tier",21)) mult = mult.div(upgradeEffect("tetr", 21))
+		if (hasUpgrade("tetr",13)) mult = mult.div(1.1)
+		if (hasUpgrade("r",24)) mult = mult.div(1.1)
+		if (hasUpgrade("pres",15)) mult = mult.div(upgradeEffect("pres", 15))
+		mult = mult.div(temp.pent.effect[2])
+        return mult
     },
 	canBuyMax() {return hasUpgrade("reb",12)},
 	doReset(resettingLayer) {
@@ -838,13 +835,10 @@ addLayer("tier", {
         mult = new Decimal(1)
         return mult
     },
-	directMult() {
-		mult = new Decimal(1)
-		mult = mult.mul(temp.pent.effect[3])
-		return mult
-	},
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+		mult = new Decimal(1)
+		mult = mult.div(temp.pent.effect[3])
+		return mult
     },
 	doReset(resettingLayer) {
 		let keep = [];
