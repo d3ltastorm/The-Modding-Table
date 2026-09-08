@@ -554,17 +554,16 @@ addLayer("sr", {
             unlocked(){return hasUpgrade(this.layer, 21)}
         },
         23: {
-            title: "Powers II",
-            titleI18N: "Powers II", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
-            description: "Raise your points based on reset points.",
-            descriptionI18N: "Raise your points based on reset points.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            title: "Reset Booster",
+            titleI18N: "Reset Booster", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply your points based on reset points.",
+            descriptionI18N: "Multiply your points based on reset points.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
 			effect() {
-				let mult = new Decimal(1);
-				mult = mult.add(player.r.points.add(1).log10().add(1).log10().mul(2).pow(2).root(2.5).div(10)) // rt2.5(((log10(log10(x+1)+1)*2)^2))/10
+				let mult = new Decimal(2).pow(player.r.points.add(1).log10().add(1).log10().mul(2).pow(2).div(5));
 				return mult
 			}, 
-            effectDisplay() { return `^${format(upgradeEffect(this.layer, this.id))}` },
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
             cost:function(){return new Decimal("1.3e15")},
             unlocked(){return hasUpgrade(this.layer, 22)}
         },
