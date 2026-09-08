@@ -577,10 +577,10 @@ addLayer("sr", {
             unlocked(){return hasUpgrade(this.layer, 23)}
         },
         25: {
-            title: "Passive Gain II",
-            titleI18N: "Passive Gain II", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
-            description: "Passively gain rebirth points.",
-            descriptionI18N: "Passively gain rebirth points.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            title: "Super Reset Buyables",
+            titleI18N: "Super Reset Buyables", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Passively gain rebirth points and unlock buyables.",
+            descriptionI18N: "Passively gain rebirth points and unlock buyables.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
             cost:function(){return new Decimal("7e45")},
             unlocked(){return hasUpgrade(this.layer, 24)}
@@ -593,6 +593,37 @@ addLayer("sr", {
             style: {"border-radius": "0"},
             cost:function(){return new Decimal("5.5e62")},
             unlocked(){return hasUpgrade(this.layer, 25)}
+        },
+    },
+    buyables: {
+        11: {
+            title: "Super Reset Powers",
+            titleI18N: "Super Reset Powers", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            effect() {
+				let mult = new Decimal(1);
+				let level = getBuyableAmount(this.layer, this.id);
+				mult = mult.add(player.r.points.add(1).log10().add(1).log10().pow(level));
+				return mult
+			},
+            display() { return `Multiply points based on reset points.<br>
+			<b>Currently:</b> x${formatWhole(this.effect())}<br>
+			<b>Cost:</b> ${formatWhole(this.cost())}<br>
+			<b>Level:</b> ${formatWhole(getBuyableAmount(this.layer, this.id))}` },
+            displayI18N() { return `Multiply points based on reset points.<br>
+			<b>Currently:</b> x${formatWhole(this.effect())}<br>
+			<b>Cost:</b> ${formatWhole(this.cost())}<br>
+			<b>Level:</b> ${formatWhole(getBuyableAmount(this.layer, this.id))}` }, // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+            cost:function(x){return new Decimal("10e18").mul(new Decimal(100).pow(x)},
+            canAfford() { return player[this.layer].points.gte(this.cost()) },
+            buy() {
+				let level = getBuyableAmount(this.layer, this.id);
+                let purchases = Decimal.affordGeometricSeries(player[this.layer].points, 10e18, 100, level);
+                let cost = Decimal.sumGeometricSeries(purchases, 10e18, 100, level);
+                player[this.layer].points = player[this.layer].points.sub(cost);
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(purchases));
+            },
+            unlocked(){return hasUpgrade(this.layer,25)}
         },
     },
     tabFormat: [
