@@ -614,7 +614,7 @@ addLayer("sr", {
 			<b>Cost:</b> ${formatWhole(this.cost())}<br>
 			<b>Level:</b> ${formatWhole(getBuyableAmount(this.layer, this.id))}` }, // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(x){return new Decimal("10e18").mul(new Decimal(100).pow(x)},
+            cost:function(x){return new Decimal("10e18").mul(new Decimal(100).pow(x))},
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
 				let level = getBuyableAmount(this.layer, this.id);
