@@ -178,18 +178,19 @@ function shitStandart(illion) {
     } else {
         let e = illion.log10().div(4).floor();
         let tier2ill = e;
-        let s = "";
+        let s = [];
         if (e.gte(33554432)) {
             s = Tier3Sep(e)
         } else {
             for (let i = 0; i < (e.gte(3) ? 3 : e.add(1).toNumber()); i++) {
                 if (i === 0) {
-                    if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill), 2)}${Tier2(tier2ill)}`
+                    if (!g(tier2ill).eq(0)) s.push(`${Tier1OnTier2(g(tier2ill), 2)}${Tier2(tier2ill)}`)
                 } else {
-                    if (!g(tier2ill).eq(0)) s+=`${Tier1OnTier2(g(tier2ill))}${Tier2(tier2ill)}`
+                    if (!g(tier2ill).eq(0)) s.push(`${Tier1OnTier2(g(tier2ill))}${Tier2(tier2ill)}`)
                 }
                 tier2ill = tier2ill.sub(1)
             }
+            s = s.join("~");
         };
         if (s.length > 35) {
             s = s.slice(0,32); s += "..."
