@@ -595,7 +595,7 @@ addLayer("sr", {
             unlocked(){return hasUpgrade(this.layer, 25)}
         },
     },
-    buyables: {
+    buyables: { // Buy Able
         11: {
             title: "Super Reset Powers",
             titleI18N: "Super Reset Powers", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
@@ -631,6 +631,7 @@ addLayer("sr", {
        "main-display",
        "prestige-button",
        "blank",
+		"buyables",
        "upgrades"
     ],
     layerShown(){return true},
