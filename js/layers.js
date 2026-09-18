@@ -487,6 +487,12 @@ addLayer("sr", {
             description: "Multiply ranks based on itself",
             descriptionI18N: "Multiply ranks based on itself", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.rank.points.add(1).log10().mul(2).add(1).log10().mul(6)) // log10(log10(x+1)*2+1)*6
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
             cost:function(){return new Decimal("1")},
             unlocked(){return true}
         },
@@ -748,14 +754,19 @@ addLayer("rank", {
         mult = new Decimal(1)
         return mult
     },
-    gainExp() { // Calculate the exponent on main currency from bonuses
+	directMult() {
         mult = new Decimal(1)
 		if (hasUpgrade("tier",13)) mult = mult.mul(upgradeEffect("tier", 13))
 		if (hasUpgrade("tier",21)) mult = mult.mul(upgradeEffect("tetr", 21))
 		if (hasUpgrade("tetr",13)) mult = mult.mul(1.1)
 		if (hasUpgrade("r",24)) mult = mult.mul(1.1)
 		if (hasUpgrade("pres",15)) mult = mult.mul(upgradeEffect("pres", 15))
+		if (hasUpgrade("sr",11)) mult = mult.mul(upgradeEffect("sr", 11))
 		mult = mult.mul(temp.pent.effect[2])
+        return mult
+	},
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        mult = new Decimal(1)
         return mult
     },
 	canBuyMax() {return hasUpgrade("reb",12)},
@@ -870,10 +881,14 @@ addLayer("tier", {
         mult = new Decimal(1)
         return mult
     },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-		mult = new Decimal(1)
+	directMult() {
+        mult = new Decimal(1)
 		mult = mult.mul(temp.pent.effect[3])
 		if (hasUpgrade("sr",15)) mult = mult.mul(upgradeEffect("sr",15))
+        return mult
+	},
+    gainExp() { // Calculate the exponent on main currency from bonuses
+		mult = new Decimal(1)
 		return mult
     },
 	doReset(resettingLayer) {
