@@ -93,7 +93,7 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player.points.add(1).log10().pow(1.5).div(4).mul(player.points.div(2).root(8))) // ((log10(x+1)^1.5)/4)*rt8(x/2)
+				mult = mult.add(player.points.root(10)) // rt10(x)
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
@@ -550,7 +550,7 @@ addLayer("sr", {
             description: "Automate tetrs.",
             descriptionI18N: "Automate tetrs.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("2.5e9")},
+            cost:function(){return new Decimal("2.5e15")},
             unlocked(){return hasUpgrade(this.layer, 21)}
         },
         23: {
@@ -564,7 +564,7 @@ addLayer("sr", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("1.3e15")},
+            cost:function(){return new Decimal("1.3e23")},
             unlocked(){return hasUpgrade(this.layer, 22)}
         },
         24: {
