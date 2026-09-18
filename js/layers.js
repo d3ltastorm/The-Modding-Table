@@ -198,6 +198,9 @@ addLayer("reb", {
 	effectDescriptionI18N() {
 		return `which are boosting points by x${format(temp[this.layer].effect)}`
 	},
+	passiveGeneration() {
+        return hasUpgrade("sr", 25)
+    },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -573,7 +576,7 @@ addLayer("sr", {
             description: "Tetrs do not reset anything.",
             descriptionI18N: "Tetrs do not reset anything.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("3.5e26")},
+            cost:function(){return new Decimal("3.5e36")},
             unlocked(){return hasUpgrade(this.layer, 23)}
         },
         25: {
@@ -647,14 +650,15 @@ addLayer("asc", {
 		points: new Decimal(0),
     }},
     color: "#77c1f8",
-    requires: new Decimal(5e9), // Can be a function that takes requirement increases into account
+    requires: new Decimal("5e55"), // Can be a function that takes requirement increases into account
     resource: "ascension points", // Name of prestige currency
     resourceI18N: "ascension points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "super reset points", // Name of resource prestige is based on
     baseResourceI18N: "super reset points", // Second name of the baseResource for internationalization (i18n) if internationalizationMod is enabled
     baseAmount() {return player.sr.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.25, // Prestige currency exponent
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+	base: 3,
+    exponent: 1.4, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
