@@ -40,7 +40,8 @@ addLayer("r", {
     exponent: 0.6, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-		if (hasUpgrade(this.layer,13)) mult = mult.mul(upgradeEffect(this.layer, 13))
+		if (hasUpgrade(this.layer,13)) mult = mult.mul(upgradeEffect(this.layer, 13)
+													   .pow(hasUpgrade(this.layer, 31) ? 1.25 : 1))
 		if (hasUpgrade(this.layer,21)) mult = mult.mul(upgradeEffect(this.layer, 21))
 		if (hasUpgrade(this.layer,23)) mult = mult.mul(1.5)
 		if (hasUpgrade("reb",11)) mult = mult.mul(1.5)
@@ -86,8 +87,8 @@ addLayer("r", {
             unlocked(){return hasUpgrade(this.layer,11)}
         },
         13: {
-            title: "Reset Self-Synergy II",
-            titleI18N: "Reset Self-Synergy II", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            title: "Reset Self-Synergy",
+            titleI18N: "Reset Self-Synergy", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply reset points based on itself",
             descriptionI18N: "Multiply reset points based on itself", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
@@ -101,8 +102,8 @@ addLayer("r", {
             unlocked(){return hasUpgrade(this.layer,12)}
         },
         14: {
-            title: "Reset Self-Synergy",
-            titleI18N: "Reset Self-Synergy", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            title: "Reset Self-Synergy II",
+            titleI18N: "Reset Self-Synergy II", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply points based on itself",
             descriptionI18N: "Multiply points based on itself", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
@@ -149,12 +150,36 @@ addLayer("r", {
             unlocked(){return hasUpgrade(this.layer,22)}
         },
         24: {
+            title: "Reset Self-Synergy III",
+            titleI18N: "Reset Self-Synergy III", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply points based on itself, again",
+            descriptionI18N: "Multiply points based on itself, again", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+			effect() {
+				let mult = new Decimal(1);
+				mult = mult.add(player.points.root(8)) // rt8(x)
+				return mult
+			}, 
+            effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
+            cost:function(){return new Decimal("2500")},
+            unlocked(){return hasUpgrade(this.layer,23)}
+        },
+        31: {
+            title: "Reset Continuity",
+            titleI18N: "Reset Continuity", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Raise base effect of Reset Self-Synergy by 1.25",
+            descriptionI18N: "Raise base effect of Reset Self-Synergy by 1.25", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("20000")},
+            unlocked(){return hasUpgrade(this.layer,24)}
+        },
+        24: {
             title: "Rebirth",
             titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("2500")},
+            cost:function(){return new Decimal("100000")},
             unlocked(){return hasUpgrade(this.layer,23)}
         },
         31: {
@@ -190,7 +215,7 @@ addLayer("reb", {
 		points: new Decimal(0),
     }},
     color: "#16a1d0",
-    requires: new Decimal(2500), // Can be a function that takes requirement increases into account
+    requires: new Decimal(100000), // Can be a function that takes requirement increases into account
     resource: "rebirth points", // Name of prestige currency
     resourceI18N: "rebirth points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "reset points", // Name of resource prestige is based on
@@ -468,7 +493,7 @@ addLayer("m", {
 		points: new Decimal(0),
     }},
     color: "#5e33d0",
-    requires: new Decimal(1_000_000), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1e9), // Can be a function that takes requirement increases into account
     resource: "mastery points", // Name of prestige currency
     resourceI18N: "mastery points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "reset points", // Name of resource prestige is based on
