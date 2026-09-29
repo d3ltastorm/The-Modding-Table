@@ -173,23 +173,23 @@ addLayer("r", {
             cost:function(){return new Decimal("20000")},
             unlocked(){return hasUpgrade(this.layer,24)}
         },
-        24: {
+        32: {
             title: "Rebirth",
             titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
             cost:function(){return new Decimal("100000")},
-            unlocked(){return hasUpgrade(this.layer,23)}
+            unlocked(){return hasUpgrade(this.layer,31)}
         },
-        31: {
+        33: {
             title: "Reset Rank Booster",
             titleI18N: "Reset Rank Booster", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply your ranks by 1.1.",
             descriptionI18N: "Multiply your ranks by 1.1.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
             cost:function(){return new Decimal("100000000")},
-            unlocked(){return hasUpgrade(this.layer,24)}
+            unlocked(){return hasUpgrade(this.layer,32)}
         },
     },
     hotkeys: [
