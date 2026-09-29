@@ -92,7 +92,7 @@ addLayer("r", {
             style: {"border-radius": "0"},
 			effect() {
 				let mult = new Decimal(1);
-				mult = mult.add(player[this.layer].points.add(1).log10().sqrt().div(10)) // sqrt(log10(x+1))/10
+				mult = mult.add(player[this.layer].points.add(1).log10().div(5)) // log10(x+1)/5
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
