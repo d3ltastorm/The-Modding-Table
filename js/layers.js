@@ -42,6 +42,7 @@ addLayer("r", {
         mult = new Decimal(1)
 		if (hasUpgrade(this.layer,13)) mult = mult.mul(upgradeEffect(this.layer, 13))
 		if (hasUpgrade(this.layer,21)) mult = mult.mul(upgradeEffect(this.layer, 21))
+		if (hasUpgrade(this.layer,23)) mult = mult.mul(1.5)
 		if (hasUpgrade("reb",11)) mult = mult.mul(1.5)
 		if (hasUpgrade("sr",13)) mult = mult.mul(2)
 		mult = mult.mul(temp.pent.effect[1])
@@ -139,22 +140,31 @@ addLayer("r", {
             unlocked(){return hasUpgrade(this.layer,21)}
         },
         23: {
+            title: "Reset Multiplier IV",
+            titleI18N: "Reset Multiplier IV", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
+            description: "Multiply reset points by 1.5.",
+            descriptionI18N: "Multiply reset points by 1.5.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
+            style: {"border-radius": "0"},
+            cost:function(){return new Decimal("750")},
+            unlocked(){return hasUpgrade(this.layer,22)}
+        },
+        24: {
             title: "Rebirth",
             titleI18N: "Rebirth", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Unlock a new layer.",
             descriptionI18N: "Unlock a new layer.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("1000")},
-            unlocked(){return hasUpgrade(this.layer,22)}
+            cost:function(){return new Decimal("2500")},
+            unlocked(){return hasUpgrade(this.layer,23)}
         },
-        24: {
+        31: {
             title: "Reset Rank Booster",
             titleI18N: "Reset Rank Booster", // Second name of title for internationalization (i18n) if internationalizationMod is enabled
             description: "Multiply your ranks by 1.1.",
             descriptionI18N: "Multiply your ranks by 1.1.", // Second name of description for internationalization (i18n) if internationalizationMod is enabled
             style: {"border-radius": "0"},
             cost:function(){return new Decimal("100000000")},
-            unlocked(){return hasUpgrade(this.layer,23)}
+            unlocked(){return hasUpgrade(this.layer,24)}
         },
     },
     hotkeys: [
@@ -180,7 +190,7 @@ addLayer("reb", {
 		points: new Decimal(0),
     }},
     color: "#16a1d0",
-    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    requires: new Decimal(2500), // Can be a function that takes requirement increases into account
     resource: "rebirth points", // Name of prestige currency
     resourceI18N: "rebirth points", // Second name of the resource for internationalization (i18n) if internationalizationMod is enabled
     baseResource: "reset points", // Name of resource prestige is based on
@@ -228,7 +238,7 @@ addLayer("reb", {
             description: "Buy max Rank.",
             descriptionI18N: "Buy max Rank.", 
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("35")},
+            cost:function(){return new Decimal("3")},
             unlocked(){return hasUpgrade(this.layer,11)}
         },
         13: {
@@ -243,7 +253,7 @@ addLayer("reb", {
 				return mult
 			}, 
             effectDisplay() { return `x${format(upgradeEffect(this.layer, this.id))}` },
-            cost:function(){return new Decimal("250")},
+            cost:function(){return new Decimal("15")},
             unlocked(){return hasUpgrade(this.layer,12)}
         },
        	14: {
@@ -252,7 +262,7 @@ addLayer("reb", {
             description: "Ranks do not reset anything.",
             descriptionI18N: "Ranks do not reset anything.", 
             style: {"border-radius": "0"},
-            cost:function(){return new Decimal("2500")},
+            cost:function(){return new Decimal("500")},
             unlocked(){return hasUpgrade(this.layer,13)}
         },
        	21: {
